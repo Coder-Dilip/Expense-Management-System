@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from . import forms
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 from .models import School
 # Create your views here.
 
@@ -58,3 +59,5 @@ def register_user(request):
     return render(request, "frontend/home/register.html", {"form": form, "msg": msg, "success": success})
 
 
+def contact(request):
+    return render(request, "frontend/home/contact.html")

@@ -61,3 +61,7 @@ def register_user(request):
 
 def contact(request):
     return render(request, "frontend/home/contact.html")
+
+
+def forgot_password(request):
+    return render(request, "frontend/home/forgot_password.html")

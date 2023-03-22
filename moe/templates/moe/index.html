@@ -131,7 +131,7 @@
               <div class="row align-items-center">
                 <div class="col">
                   <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-                  <h5 class="h3 text-white mb-0">Sales value</h5>
+                  <h5 class="h3 text-white mb-0">Daily Budget View</h5>
                 </div>
                 <!-- <div class="col">
                   <ul class="nav nav-pills justify-content-end">
@@ -155,7 +155,7 @@
               <!-- Chart -->
               <div class="chart">
                 <!-- Chart wrapper -->
-                <canvas id="chart-sales-dark" class="chart-canvas"></canvas>
+                <canvas id="chart-sales-darks" class="chart-canvas"></canvas>
               </div>
             </div>
           </div>
@@ -408,7 +408,82 @@
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
+
+
   <script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
   <script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+  <script>
+
+    const data = {
+    labels: ['feb 2','feb 3','mar 5','mar 7','mar 9','apr 10'],
+    datasets: [{
+      label: 'In Rupees',
+      data: [1000, 200, 3000,500,10000,6000],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }]
+  };
+  
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'nearest',
+        intersect: false,
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: 'Continuous Curve'
+        }
+      }
+    },
+  };
+  
+  const myChart = new Chart(
+    document.getElementById("chart-sales-darks"),
+    config
+  );
+  
+  </script>
+
+  <script>
+    const data1 = {
+  labels: ['Available', 'Spend'],
+  datasets: [{
+    label: 'My Dataset',
+    data: [12000, 400],
+    backgroundColor: [
+      'orange',
+      'purple'
+    ],
+    borderWidth: 1
+  }]
+};
+
+const config1 = {
+  type: 'pie',
+  data: data1,
+  options: {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Pie Chart'
+      }
+    }
+  },
+};
+
+const myChart1 = new Chart(
+  document.getElementById('chart-barss'),
+  config1
+);
+
+  </script>
 
 {% endblock javascripts %}

@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
 from . import forms
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from .models import School
 from django.contrib.auth.models import User
+import json
 # Create your views here.
 
 def index(request):
@@ -25,7 +26,7 @@ def login_view(request):
                 if School.objects.filter(user=user).exists():
                   return redirect('/shool-dashboard') # Redirect to home page
                 else:
-                    return redirect("/admin-dashboards")
+                    return redirect("/admin-dashboard")
                 
             else:
                 msg = 'Invalid credentials'
@@ -62,7 +63,40 @@ def register_user(request):
 
 
 def contact(request):
-    return render(request, "frontend/home/contact.html")
+    import openai
+    import os
+
+    # Set up OpenAI API credentials
+    openai.api_key ="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"
+
+    # Set up the GPT-3 model
+    model_engine = "text-davinci-003"
+    prompt = "write a letter to the ministry of education of nepal for asking for changing budget classification"
+    temperature = 0.5
+    max_tokens = 4048  # Increase this value to generate longer text
+    # Generate text
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+
+    # Display the generated text
+    reply=response.choices[0].text
+    
+    # reply=reply.replace("\n", "<br>")
+      
+    
+    
+   
+    
+    # Return the JSON response
+    # return HttpResponse(response.choices[0].text)
+    # Save the generated text to a file
+    dat={"reply":reply}
+
+    return render(request, "frontend/home/contact.html",dat)
 
 
 def forgot_password(request):

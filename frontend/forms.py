@@ -54,6 +54,14 @@ class SignUpForm(UserCreationForm):
                 "class": "form-control"
             }
         ))
+    
+    security_question = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "first word of the school if you want to rename your school",
+                "class": "form-control"
+            }
+        ))
 
     class Meta:
         model = User

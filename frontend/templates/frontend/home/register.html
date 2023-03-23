@@ -76,6 +76,16 @@
                   </div>
                   <span class="text-error">{{ form.password2.errors }}</span>
 
+                  <div class="form-group">
+                    <div class="input-group input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-key-25"></i></span>
+                      </div>
+                      {{ form.security_question }}
+                    </div>
+                  </div>
+                  <span class="text-error">{{ form.security_question.errors }}</span>
+
                   <div class="row my-4">
                     <div class="col-12">
                       <div class="custom-control custom-control-alternative custom-checkbox">

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>File Upload Form</title>
+	<style>
+		.file-upload {
+			display: inline-block;
+			padding: 12px 30px;
+			font-size: 16px;
+			font-weight: bold;
+			color: #fff;
+			background-color: #4CAF50;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.file-upload input[type="file"] {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+		<label for="file-upload" class="file-upload">Choose File</label>
+		<input id="file-upload" type="file" name="file">
+		<button type="submit">Upload</button>
+	</form>
+</body>
+</html>

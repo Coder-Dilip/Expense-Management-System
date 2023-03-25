@@ -24,7 +24,12 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 if School.objects.filter(user=user).exists():
-                  return redirect('/shool-dashboard') # Redirect to home page
+                   school_form = School.objects.get(user=user)
+                   status = school_form.status
+                   if status=='new':
+                       return redirect('/school-form')
+                   else:
+                        return redirect('/shool-dashboard') # Redirect to home page
                 else:
                     return redirect("/admin-dashboard")
                 
@@ -32,6 +37,8 @@ def login_view(request):
                 msg = 'Invalid credentials'
         else:
             msg = 'Error validating the form'
+    
+    
 
     return render(request, "frontend/home/login.html", {"form": form, "msg": msg})
 

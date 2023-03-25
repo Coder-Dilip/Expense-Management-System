@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <meta property="twitter:card" content="summary_large_image" />
-
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style data-tag="reset-style-sheet">
       html {  line-height: 1.15;}
       body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}
@@ -85,7 +85,7 @@
               <span class="home-text009">Get started</span>
             </div>
           </header>
-          <div class="home-dashboard-preview">
+          <div data-aos="zoom-out-up" class="home-dashboard-preview"  data-aos-duration="2000">
             <div class="home-outline">
               <img
                 alt="pastedImage"
@@ -98,7 +98,8 @@
           </div>
         </section>
         <section class="home-features">
-          <div class="home-title">
+          <div class="home-title" data-aos="fade-up"
+          data-aos-duration="2000">
             <span class="home-text010">
               <span>Track Budget and manage each expenses</span>
             <span class="home-text014">
@@ -861,6 +862,10 @@ Here's what the above is doing:
         </footer> -->
       </div>
     </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
     <script>
       const redir=()=>{
         window.location.href="/login"

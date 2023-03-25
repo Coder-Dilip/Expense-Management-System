@@ -122,11 +122,20 @@ def forgot_password(request):
     return render(request, "frontend/home/forgot_password.html")
 
 def forgot_password2(request):
+    message=''
     if request.method=="POST":
         username=request.POST.get('username')
         answer=request.POST.get("answer")
-        return redirect(f"/forgot-password3?key={username}")
-    return render(request, "frontend/home/forgot_password2.html")
+        curr_user=User.objects.get(username=username)
+        school_user=School.objects.get(user=curr_user)
+        if school_user.security_answer==answer:
+
+         return redirect(f"/forgot-password3?key={username}")
+        else:
+            print("Security answer invalid")
+            message="Security answer invalid"
+
+    return render(request, "frontend/home/forgot_password2.html",{'data':message})
 
 def forgot_password3(request):
     if request.method=="POST":

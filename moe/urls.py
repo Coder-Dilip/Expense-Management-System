@@ -8,6 +8,11 @@ urlpatterns = [
     path("admin-dashboard/icons",views.icons),
     path("admin-dashboard/table",views.table),
     path('logout/',views.logOut),
+
+
+
+    # verify school
+    path("verify/<username>",views.verify_school)
      
 ]
 

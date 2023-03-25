@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 # Create your views here.
 from .models import SchoolForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
+from django.http import JsonResponse
 
 
 @login_required(login_url="/login/")
@@ -66,7 +67,8 @@ def school_form(request):
             name=name,
             address=address,
             phone=phone,
-            contact_email=contact_email
+            contact_email=contact_email,
+            status=0
         )
         form_data.save()
 
@@ -81,6 +83,35 @@ def success(request):
     data = request.GET.get('data', None)
     return render(request, 'school/success.html',{'data':data})
 
+
+def school_details(request, username):
+    school = get_object_or_404(SchoolForm, username=username)
+    return render(request, 'school/school_details.html', {'school': school})
+
+
+
+
+
+
+
+
+
+
+
+
+
 def view_image(request,username):
     school_data = SchoolForm.objects.get(username=username)
     return render(request, 'school/view_image.html', {'data': school_data})
+
+
+
+def school_form_list(request):
+     # Filter rows based on status value
+    school_forms = SchoolForm.objects.filter(status=0)
+
+    # Convert QuerySet to list of dictionaries
+    data = {'schools': list(school_forms.values())}
+
+    # Return JSON response
+    return JsonResponse(data)

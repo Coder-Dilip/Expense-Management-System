@@ -5,11 +5,15 @@ from django.http import HttpResponse,JsonResponse
 from .models import School
 from django.contrib.auth.models import User
 import json
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
     return render(request,"frontend/index.html")
 
+
+
+@csrf_exempt
 def login_view(request):
     form = forms.LoginForm(request.POST or None)
 
@@ -42,6 +46,9 @@ def login_view(request):
 
     return render(request, "frontend/home/login.html", {"form": form, "msg": msg})
 
+
+
+@csrf_exempt
 def register_user(request):
     msg = None
     success = False

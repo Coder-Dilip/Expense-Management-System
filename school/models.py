@@ -63,6 +63,9 @@ class SchoolForm(models.Model):
     address=models.CharField(max_length=100)
     phone=models.CharField(max_length=20)
     contact_email=models.CharField(max_length=100)
+    educational_background=models.CharField(max_length=100,default="")
+    years_of_experience=models.IntegerField()
+    vision_for_school=models.CharField(max_length=200,default="")
 
     status=models.IntegerField(default=0)
 

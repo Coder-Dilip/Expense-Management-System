@@ -34,6 +34,11 @@ def school_form(request):
         phone = request.POST.get('phone')
         pan=request.POST.get('pan')
         image_file=request.FILES['image_file']
+        educational_background=request.POST.get('educational_background')
+        years_of_experience=request.POST.get('years_of_experience')
+        vision_for_school=request.POST.get('vision_for_school')
+
+
         if image_file:
             # generate unique filename using uuid and file extension
             unique_filename = str(uuid.uuid4()) + '.' + image_file.name.split('.')[-1]
@@ -68,7 +73,12 @@ def school_form(request):
             address=address,
             phone=phone,
             contact_email=contact_email,
-            status=0
+            status=0,
+            educational_background=educational_background,
+            years_of_experience=years_of_experience,
+            vision_for_school=vision_for_school
+
+
         )
         form_data.save()
 

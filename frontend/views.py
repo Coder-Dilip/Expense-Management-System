@@ -153,3 +153,6 @@ def forgot_password3(request):
     
 
     return render(request, "frontend/home/forgot_password3.html")
+
+def budget_calculator(req):
+    return render(req, 'frontend/home/calculator.html')

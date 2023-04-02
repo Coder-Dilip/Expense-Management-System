@@ -9,5 +9,6 @@ path('register/',views.register_user),
 path("contact/",views.contact),
 path("forgot-password/",views.forgot_password),
 path("forgot-password2/",views.forgot_password2),
-path("forgot-password3/",views.forgot_password3)
+path("forgot-password3/",views.forgot_password3),
+path('budget-calculator/',views.budget_calculator)
 ]

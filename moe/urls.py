@@ -8,12 +8,13 @@ urlpatterns = [
     path("admin-dashboard/icons",views.icons),
     path("admin-dashboard/table",views.table),
     path('logout/',views.logOut),
+    path('admin-dashboard/to-distribute',views.school_budget_table),
 
 
 
     # verify school
-    path("verify/<username>",views.verify_school)
-     
+    path("verify/<username>",views.verify_school),
+    path("distribute-budget/<username>",views.distribute_budget)
 ]
 
 

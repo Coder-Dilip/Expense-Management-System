@@ -6,13 +6,14 @@ from django.contrib.auth.models import User
 # for classifying the budget to schoool by the moe
 class SchoolBudget(models.Model):
     school_username = models.CharField(max_length=100)
-    school_items=models.IntegerField()   # computer, marker, desk, table, pen, paper, etc  
-    health=models.IntegerField()  #first aid kit, sanitary pads
-    transportation=models.IntegerField()  # buses
-    clothes=models.IntegerField()  # uniform, shoes, tie
-    bills=models.IntegerField()   # electricity, water, gas, internet
-    sports=models.IntegerField()  # sports related 
-    extra_curricular=models.IntegerField()  #events, programs
+    school_items = models.IntegerField(default=0)   # computer, marker, desk, table, pen, paper, etc  
+    health = models.IntegerField(default=0)  #first aid kit, sanitary pads
+    transportation = models.IntegerField(default=0)  # buses
+    clothes = models.IntegerField(default=0)  # uniform, shoes, tie
+    bills = models.IntegerField(default=0)   # electricity, water, gas, internet
+    sports = models.IntegerField(default=0)  # sports related 
+    extra_curricular = models.IntegerField(default=0)  #events, programs
+    distributed = models.BooleanField(default=False) #whether distributed or not
 
 
 
@@ -20,6 +21,7 @@ class SchoolBudget(models.Model):
 # for daily tracking the budget by school
 class DailyTrack(models.Model):
     school_username = models.CharField(max_length=100)
+    food=models.IntegerField()
     school_items=models.IntegerField()   # computer, marker, desk, table, pen, paper, etc  
     health=models.IntegerField()  #first aid kit, sanitary pads
     transportation=models.IntegerField()  # buses

@@ -8,7 +8,9 @@ urlpatterns = [
     path("success/",views.success),
     path("view-image/<username>",views.view_image),
     path("view-school/<username>",views.school_details),
-    path("view-school-form/",views.school_form_list)
+    path("view-school-form/",views.school_form_list),
+    path('school-dashboard',views.school_dashboard),
+    path('school-dashboard/daily-track',views.daily_track)
 ]
 
 if settings.DEBUG:

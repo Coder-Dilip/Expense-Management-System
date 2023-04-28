@@ -1,6 +1,7 @@
+import datetime
 from django.shortcuts import render, redirect,get_object_or_404
 # Create your views here.
-from .models import SchoolForm
+from .models import DailyTrack, SchoolForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
@@ -38,7 +39,6 @@ def school_form(request):
         years_of_experience=request.POST.get('years_of_experience')
         vision_for_school=request.POST.get('vision_for_school')
 
-
         if image_file:
             # generate unique filename using uuid and file extension
             unique_filename = str(uuid.uuid4()) + '.' + image_file.name.split('.')[-1]
@@ -48,8 +48,6 @@ def school_form(request):
                     destination.write(chunk)
             # create ImageModel instance with the unique filename
             image_file='images/'+unique_filename
-
-
 
         contact_email = request.POST.get('contact_email')
 
@@ -77,8 +75,6 @@ def school_form(request):
             educational_background=educational_background,
             years_of_experience=years_of_experience,
             vision_for_school=vision_for_school
-
-
         )
         form_data.save()
 
@@ -97,6 +93,10 @@ def success(request):
 def school_details(request, username):
     school = get_object_or_404(SchoolForm, username=username)
     return render(request, 'school/school_details.html', {'school': school})
+
+def school_dashboard(request):
+    print('lol')
+    return render(request,'school/index.html')
 
 
 
@@ -125,3 +125,33 @@ def school_form_list(request):
 
     # Return JSON response
     return JsonResponse(data)
+
+def daily_track(request):
+   
+    if request.method == 'POST':
+        school_username = request.POST.get('school_username')
+        school_data = SchoolForm.objects.get(username=school_username)
+        food = request.POST.get('food')
+        school_items = request.POST.get('school_items')
+        health = request.POST.get('health')
+        transportation = request.POST.get('transportation')
+        clothes = request.POST.get('clothes')
+        bills = request.POST.get('bills')
+        sports = request.POST.get('sports')
+        extra_curricular = request.POST.get('extra_curricular')
+        notes = request.POST.get('notes')
+        current_date = request.POST.get('current_date')
+        current_date = datetime.datetime.strptime(current_date, "%Y-%m-%d").strftime("%Y-%b-%d")
+        existing_record = DailyTrack.objects.filter(current_date=current_date,school_username=school_username).first()
+        if existing_record:
+        # A record already exists on this day, so you can show an error message to the user
+            message = "A record already exists for this day"
+            return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message})
+
+        daily_track = DailyTrack(school_username=school_username, food=food, school_items=school_items, health=health, transportation=transportation, clothes=clothes, bills=bills, sports=sports, extra_curricular=extra_curricular, notes=notes, current_date=current_date)
+        daily_track.save()
+        message='Daily Data Saved Successfully'
+        return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message})
+    
+    school_data = SchoolForm.objects.get(username=request.user.username)
+    return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':''})

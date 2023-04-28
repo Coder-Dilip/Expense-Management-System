@@ -358,6 +358,7 @@
     class="page-template page-template-page-budget-calculator page-template-page-budget-calculator-php page page-id-738"
     style=""
   >
+  {% include 'frontend/includes/nav.html' %}
     <noscript
       ><iframe
         src="https://www.googletagmanager.com/ns.html?id=GTM-N29WGSZ"
@@ -374,7 +375,7 @@
               <h2 class="title title-h1">Budget calculator</h2>
               <div class="content">
                 <p>
-                    Test out the SpendMaster monthly personal budget estimator. Create a budget that is unique to you. Let us run the figures to see how much you may set aside for debt repayment or save.
+                    Test out the Eduwise monthly personal budget estimator. Create a budget that is unique to you. Let us run the figures to see how much you may set aside for debt repayment or save.
               </div>
               <div class="btn-wrap">
                 <a href="#calculator" class="btn btn-alt btn-scrollto-offset"
@@ -411,7 +412,7 @@
               <div class="calc-container">
                 <div class="calc-item calc-item_income" >
                   <h3 class="calc-i-title bg-1 active" style="background-color: aqua;">
-                    Estimated income: $<span class="data-title data-title-icome"
+                    Estimated income: Rs   <span class="data-title data-title-icome"
                       >8462</span
                     >
                   </h3>
@@ -432,9 +433,9 @@
                           min="0"
                           max="1000000"
                         />
-                        <span class="icon-bill">$</span>
+                        <span class="icon-bill">Rs   </span>
                         <span class="num-error"
-                          >Enter a value between $0 and $1,000,000</span
+                          >Enter a value between Rs   0 and Rs   1,000,000</span
                         >
                       </div>
                       <div class="wrap-range-slider">
@@ -443,8 +444,8 @@
                           class="range-slider-income noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr"
                         ></div>
                         <div class="range-slider-nums">
-                          <span class="min">$0</span>
-                          <span class="max">$20000</span>
+                          <span class="min">Rs   0</span>
+                          <span class="max">Rs   200000</span>
                         </div>
                       </div>
                     </div>
@@ -452,7 +453,7 @@
                 </div>
                 <div class="calc-item calc-item_bills">
                   <h3 class="calc-i-title bg-2">
-                    Bills &amp; Utilities: $<span
+                    Bills &amp; Utilities: Rs   <span
                       class="data-title data-title-bills"
                       >0</span
                     >
@@ -460,21 +461,7 @@
                   <div class="calc-i-content">
                     <p>Enter all your recurring expenses on a monthly basis.</p>
                     <div class="input-container">
-                      <div class="input-row">
-                        <label for="" class="input-label">Rent</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-rent"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
+                     
                       <div class="input-row">
                         <label for="" class="input-label">Insurance</label>
                         <div class="input-wrap input-wrap-bill">
@@ -486,12 +473,12 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
                       <div class="input-row">
-                        <label for="" class="input-label">Property tax</label>
+                        <label for="" class="input-label">Education tax</label>
                         <div class="input-wrap input-wrap-bill">
                           <input
                             type="number"
@@ -501,7 +488,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -516,7 +503,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -531,7 +518,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -546,7 +533,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -563,12 +550,12 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
                       <div class="input-row">
-                        <label for="" class="input-label">Cell phone</label>
+                        <label for="" class="input-label">Telephone</label>
                         <div class="input-wrap input-wrap-bill">
                           <input
                             type="number"
@@ -578,12 +565,12 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
                       <div class="input-row">
-                        <label for="" class="input-label">Subscriptions</label>
+                        <label for="" class="input-label">Supplies and Textbooks</label>
                         <div class="input-wrap input-wrap-bill">
                           <input
                             type="number"
@@ -593,7 +580,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -608,7 +595,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -617,7 +604,7 @@
                 </div>
                 <div class="calc-item calc-item_cat-budgets">
                   <h3 class="calc-i-title bg-3">
-                    Category budgets: $<span
+                    Category budgets: Rs   <span
                       class="data-title data-title-cat-budgets"
                       >0</span
                     >
@@ -628,23 +615,9 @@
                       budgets.
                     </p>
                     <div class="input-container">
+                     
                       <div class="input-row">
-                        <label for="" class="input-label">Home</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-home"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Groceries</label>
+                        <label for="" class="input-label">Extra Curricular</label>
                         <div class="input-wrap input-wrap-bill">
                           <input
                             type="number"
@@ -654,7 +627,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -671,40 +644,12 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Eating out</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-eating-out"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Entertainment</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-entertainment"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
+                    
+                   
                       <div class="input-row">
                         <label for="" class="input-label"
                           >Health &amp; Medical</label
@@ -718,44 +663,13 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
+                 
                       <div class="input-row">
-                        <label for="" class="input-label">Personal Care</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-personal-care"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label"
-                          >Gifts &amp; Donations</label
-                        >
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-gifts-donations"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Clothing</label>
+                        <label for="" class="input-label">Clothing & Uniform</label>
                         <div class="input-wrap input-wrap-bill">
                           <input
                             type="number"
@@ -765,102 +679,15 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Education</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-education"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label"
-                          >Electronics &amp; Software</label
-                        >
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-electronics-software"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Insurance</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-insurance"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Kids</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-kids"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Pets</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-pets"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Shopping</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-shopping"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
+                    
+                  
+                   
+                  
+                    
                       <div class="input-row">
                         <label for="" class="input-label"
                           >Sports &amp; Fitness</label
@@ -874,7 +701,7 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
@@ -889,88 +716,17 @@
                             min="0"
                             placeholder="0"
                           />
-                          <span class="icon-bill">$</span>
+                          <span class="icon-bill">Rs   </span>
                           <span class="num-error"></span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="calc-item calc-item_debts">
-                  <h3 class="calc-i-title bg-4">
-                    Debts: $<span class="data-title data-title-debts">0</span>
-                  </h3>
-                  <div class="calc-i-content">
-                    <p>
-                      Enter minimum amount of money you need to pay every month.
-                    </p>
-                    <div class="input-container">
-                      <div class="input-row">
-                        <label for="" class="input-label">Credit cards</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-credit-cards"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Loans</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-loans"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Mortgage</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-mortgage"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                      <div class="input-row">
-                        <label for="" class="input-label">Insurance</label>
-                        <div class="input-wrap input-wrap-bill">
-                          <input
-                            type="number"
-                            id=""
-                            class="calc-input input-bill input-insurance"
-                            step="1"
-                            min="0"
-                            placeholder="0"
-                          />
-                          <span class="icon-bill">$</span>
-                          <span class="num-error"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
                 <div class="calc-item calc-item_savings">
                   <h3 class="calc-i-title bg-5 active">
-                    Savings: $<span class="data-title data-title-savings"
+                    Savings: Rs   <span class="data-title data-title-savings"
                       >0</span
                     >
                   </h3>
@@ -987,7 +743,7 @@
                           min="0"
                           max="20000"
                         />
-                        <span class="icon-bill">$</span>
+                        <span class="icon-bill">Rs   </span>
                       </div>
                       <div class="wrap-range-slider">
                         <div
@@ -995,8 +751,8 @@
                           class="range-slider-savings noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr"
                         ></div>
                         <div class="range-slider-nums">
-                          <span class="min">$<span>0</span></span>
-                          <span class="max">$<span>8462</span></span>
+                          <span class="min">Rs   <span>0</span></span>
+                          <span class="max">Rs   <span>8462</span></span>
                         </div>
                       </div>
                     </div>
@@ -1007,15 +763,15 @@
             <div class="calc-result calc-result_success">
               <div class="calc-result-title" style="background-color: orange;">
                 <div class="title">
-                  IN MY POCKET
+                  In My School
                   <a
                     href="javascript:void(0);"
-                    data-tooltip="In My Pocket - the leftover amount of money you can save or spend on everything else during the month."
+                    data-tooltip="In My School - the leftover amount of money you can save or spend on everything else during the month."
                     ><i class="icon-info"></i
                   ></a>
                 </div>
                 <div class="count count_success">
-                  <span class="count-result" style="color:white">$<span>8462</span></span>
+                  <span class="count-result" style="color:white">Rs   <span>8462</span></span>
                 </div>
               </div>
               <div class="calc-result-container">
@@ -1063,7 +819,7 @@
                               fill-opacity="0"
                               fill="#ffffff"
                             ></rect>
-                            <g column-id="In My Pocket">
+                            <g column-id="In My School">
                               <rect
                                 x="223"
                                 y="131"
@@ -1152,7 +908,7 @@
                             </thead>
                             <tbody>
                               <tr>
-                                <td>In My Pocket</td>
+                                <td>In My School</td>
                                 <td>8,462</td>
                               </tr>
                               <tr>
@@ -1197,32 +953,30 @@
                   <div class="chart-tr">
                     <span class="chart-td">Total Monthly Income</span
                     ><span class="chart-td chart-td-amount"
-                      >$<span class="tm-income">8462</span></span
+                      >Rs   <span class="tm-income">8462</span></span
                     >
                   </div>
                   <div class="chart-tr">
                     <span class="chart-td">Total Monthly Expenses</span
                     ><span class="chart-td chart-td-amount"
-                      >$<span class="tm-expenses">0</span></span
+                      >Rs   <span class="tm-expenses">0</span></span
                     >
                   </div>
                   <div class="chart-tr">
                     <span class="chart-td">Total Monthly Savings</span
                     ><span class="chart-td chart-td-amount"
-                      >$<span class="tm-savings">0</span></span
+                      >Rs   <span class="tm-savings">0</span></span
                     >
                   </div>
                   <div class="chart-tr chart-tr_result">
                     <span class="chart-td"
-                      >In My Pocket (Remaining Monthly Funds)</span
+                      >In My School (Remaining Monthly Funds)</span
                     ><span class="chart-td chart-td-amount chart-td_result"
-                      >$<span class="tm-pocket">8462</span></span
+                      >Rs   <span class="tm-pocket">8462</span></span
                     >
                   </div>
                 </div>
-                <p class="chart-msg">
-                  Well Done! You’re spending less than you’re earning.
-                </p>
+               
               </div>
             </div>
           </div>
@@ -1243,7 +997,7 @@
               <h2 class="title">How to use monthly budget calculator</h2>
               <div class="content">
                 <p>
-                    It's easy to use the SpendMaster online budget calculator. We'll do the math for you if you enter the necessary data in each field.
+                    It's easy to use the Eduwise online budget calculator. We'll do the math for you if you enter the necessary data in each field.
                 </p>
                 <p>
                     There are five primary categories in our no-cost budget planner. The monthly budget is the third category, followed by monthly expenses, monthly income, monthly expenses, monthly budget, monthly debt repayment, and monthly savings.
@@ -1439,7 +1193,7 @@
                           pay for Wi-Fi or internet provider monthly.
                         </li>
                         <li>
-                          <strong>Cell phone:</strong> This may include how much
+                          <strong>Telephone:</strong> This may include how much
                           is your cell phone plan, let’s say AT&amp;T or
                           T-Mobile.
                         </li>
@@ -2041,6 +1795,17 @@
           });
         });
       })(jQuery);
+    </script>
+    <script>
+      let el=document.getElementById("lol")
+      let splitted=el.split(" ")
+      for(let x=0;x<splitted.length;x++){
+        if (splitted[x]=='dollar'){
+          splitted[x]='Rupees'
+        }
+      }
+      el.textContent=splitted.join(" ")
+      console.log('lol')
     </script>
   </body>
 </html>

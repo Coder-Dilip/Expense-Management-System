@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+
+from school.models import SchoolForm
 from . import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse,JsonResponse
@@ -29,11 +31,12 @@ def login_view(request):
                 login(request, user)
                 if School.objects.filter(user=user).exists():
                    school_form = School.objects.get(user=user)
+                   form_details=SchoolForm.objects.get(username=school_form.user.username)
                    status = school_form.status
                    if status=='new':
                        return redirect('/school-form')
                    else:
-                        return redirect('/shool-dashboard') # Redirect to home page
+                        return redirect(f'/school-dashboard?key={school_form.user.username+"-"+str(form_details.image_file)}') # Redirect to home page
                 else:
                     return redirect("/admin-dashboard")
                 
@@ -81,11 +84,11 @@ def contact(request):
     import os
 
     # Set up OpenAI API credentials
-    openai.api_key ="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"
+    openai.api_key ="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"
 
     # Set up the GPT-3 model
     model_engine = "text-davinci-003"
-    prompt = "write a letter to the ministry of education of nepal for asking for changing budget classification"
+    prompt = "write a letter to the ministry of education about the current education scenario"
     temperature = 0.5
     max_tokens = 4048  # Increase this value to generate longer text
     # Generate text
@@ -156,3 +159,5 @@ def forgot_password3(request):
 
 def budget_calculator(req):
     return render(req, 'frontend/home/calculator.html')
+
+

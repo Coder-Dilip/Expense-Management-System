@@ -9,7 +9,7 @@ urlpatterns = [
     path("admin-dashboard/table",views.table),
     path('logout/',views.logOut),
     path('admin-dashboard/to-distribute',views.school_budget_table),
-
+    path('admin-dashboard/distribute/<username>',views.school_distribute),
 
 
     # verify school

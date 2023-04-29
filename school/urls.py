@@ -10,7 +10,10 @@ urlpatterns = [
     path("view-school/<username>",views.school_details),
     path("view-school-form/",views.school_form_list),
     path('school-dashboard',views.school_dashboard),
-    path('school-dashboard/daily-track',views.daily_track)
+    path('school-dashboard/daily-track',views.daily_track),
+    path('school-dashboard/stats/<username>',views.statistics),
+    path('save_daily_saving_plan/', views.save_daily_saving_plan, name='save_daily_saving_plan')
+
 ]
 
 if settings.DEBUG:

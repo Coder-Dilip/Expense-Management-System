@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect,get_object_or_404
 # Create your views here.
-from .models import DailyTrack, SchoolForm
+from .models import DailyTrack, SchoolBudget, SchoolForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
@@ -149,9 +149,105 @@ def daily_track(request):
             return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message})
 
         daily_track = DailyTrack(school_username=school_username, food=food, school_items=school_items, health=health, transportation=transportation, clothes=clothes, bills=bills, sports=sports, extra_curricular=extra_curricular, notes=notes, current_date=current_date)
+        school_budget = get_object_or_404(SchoolBudget, school_username=school_username)
+
+    # Modify the relevant fields
+        school_budget.food -= int(food)
+        school_budget.school_items -= int(school_items)
+        school_budget.health -= int(health)
+        school_budget.transportation -= int(transportation)
+        school_budget.clothes -= int(clothes)
+        school_budget.bills -= int(bills)
+        school_budget.sports -= int(sports)
+        school_budget.extra_curricular -= int(extra_curricular)
+
+    # Save the changes
+        school_budget.save()
         daily_track.save()
         message='Daily Data Saved Successfully'
         return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message})
     
     school_data = SchoolForm.objects.get(username=request.user.username)
     return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':''})
+
+
+
+def statistics(request,username):
+    try:
+        school_budget_data = SchoolBudget.objects.get(school_username=username)
+
+        # Create a dictionary to store the data
+        data = {
+            'school_username': school_budget_data.school_username,
+            'school_items': school_budget_data.school_items,
+            'food': school_budget_data.food,
+            'health': school_budget_data.health,
+            'transportation': school_budget_data.transportation,
+            'clothes': school_budget_data.clothes,
+            'bills': school_budget_data.bills,
+            'sports': school_budget_data.sports,
+            'extra_curricular': school_budget_data.extra_curricular,
+            'distributed': school_budget_data.distributed
+        }
+
+        data2 = {
+            'school_items': school_budget_data.school_items,
+            'food': school_budget_data.food,
+            'health': school_budget_data.health,
+            'transportation': school_budget_data.transportation,
+            'clothes': school_budget_data.clothes,
+            'bills': school_budget_data.bills,
+            'sports': school_budget_data.sports,
+            'extra_curricular': school_budget_data.extra_curricular
+        }
+
+        # Calculate the total budget
+        total_budget = sum(data2.values())
+        data['total']=total_budget
+        data['data']=data
+        # Pass the dictionary to the template
+
+        return render(request,'school/stats.html',data)
+    except:
+        return redirect('/school-dashboard')
+    
+# from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import MonthlySavingPlan
+
+@csrf_exempt
+def save_daily_saving_plan(request):
+    if request.method == 'POST':
+        data = request.POST.getlist('data[]')  # Get data from the POST request
+        # Convert the data into the appropriate types
+        print(data[1])
+        school_username = data[0]
+        school_items = int(data[1])
+        food = int(data[2])
+        health = int(data[3])
+        transportation = int(data[4])
+        clothes = int(data[5])
+        bills = int(data[6])
+        sports = int(data[7])
+        extra_curricular = int(data[8])
+        status = bool(data[9])
+
+        # Check if there is already data for the school_username
+        if MonthlySavingPlan.objects.filter(school_username=school_username).exists():
+            # Remove the previous data for the school_username
+            MonthlySavingPlan.objects.filter(school_username=school_username).delete()
+        # Create a new MonthlySavingPlan instance with the received data
+        daily_saving_plan = MonthlySavingPlan(school_username=school_username,
+                                             school_items=school_items,
+                                             food=food,
+                                             health=health,
+                                             transportation=transportation,
+                                             clothes=clothes,
+                                             bills=bills,
+                                             sports=sports,
+                                             extra_curricular=extra_curricular,
+                                             status=status)
+        daily_saving_plan.save()  # Save the instance to the database
+        return JsonResponse({'success': True})  # Return a success response
+    else:
+        return JsonResponse({'success': False})  # Return an error response

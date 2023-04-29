@@ -83,14 +83,14 @@
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active">
               <a href="/school-dashboard/stats/{{request.user.username}}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="Analytics">Stats & Plan</div>
               </a>
             </li>
             <!-- Layouts -->
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="/school-dashboard/daily-track" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-layout"></i>
                 <div data-i18n="Layouts">Daily Track</div>
@@ -383,172 +383,187 @@
         <div class="layout-page">
           <!-- Navbar -->
 
-          <nav
-            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-            id="layout-navbar"
-          >
-            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-                <i class="bx bx-menu bx-sm"></i>
-              </a>
-            </div>
-
-            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-              <!-- Search -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-required                     type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
-                </div>
-              </div>
-              <!-- /Search -->
-
-              <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Place this tag where you want the button to render. -->
-               <p style="margin-top: 18px" id="school_username"></p>
-
-                <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                      <img class="school_profile" src="http://localhost:8000/media/{{img}}" alt class="w-px-40 h-auto rounded-circle" />
-                    </div>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <div class="d-flex">
-                          <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                              <img class="school_profile" src="" alt class="w-px-40 h-auto rounded-circle" />
-                            </div>
-                          </div>
-                          <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <span class="d-flex align-items-center align-middle">
-                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
-                          <span class="flex-grow-1 align-middle">Billing</span>
-                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <!--/ User -->
-              </ul>
-            </div>
-          </nav>
+      
 
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
           <div class="content-wrapper" style="padding:30px">
             <!-- Content -->
- <img src="https://www.brightful.me/content/images/2021/05/2-1.jpg" style="width: 100%;height:250px;object-fit:cover;border-radius: 5px;" alt="">
-<br>
-<br>
-<h5 style="color:red">{{message}}</h5>
-        <h1>Daily Track</h1>
-        <p style="color:orangered">Put all the expenses that happen today in Rupees</p>
-       
-        <br>
-        <form class="row g-3" method="post" id="daily-track-form">
-          {% csrf_token %}
-          <div class="col-md-6">
-              <label for="school_username" class="form-label">School Username</label>
-              <input required type="text" class="form-control" id="school_username" name="school_username" value="{{ request.user.username }}" readonly>
-          </div>
-          <div class="col-md-6">
-              <label for="school_items" class="form-label">School Items</label>
-              <input placeholder="furniture, desk..." required type="number" class="form-control" id="school_items" name="school_items">
-          </div>
-          <div class="col-md-6">
-            <label for="food" class="form-label">Food</label>
-            <input placeholder="breakfast, launch..." required type="number" class="form-control" id="food" name="food">
-        </div>
-          <div class="col-12">
-              <label for="health" class="form-label">Health</label>
-              <input placeholder="first aid, sanitary pad..." required type="number" class="form-control" id="health" name="health">
-          </div>
-          <div class="col-12">
-              <label for="transportation" class="form-label">Transportation</label>
-              <input placeholder="bus, petrol..." required type="number" class="form-control" id="transportation" name="transportation">
-          </div>
-          <div class="col-md-6">
-              <label for="clothes" class="form-label">Clothes</label>
-              <input placeholder="uniform,dress..." required type="number" class="form-control" id="clothes" name="clothes">
-          </div>
-          <div class="col-md-4">
-              <label for="bills" class="form-label">Bills</label>
-              <input placeholder="Electricity ,gas..." required type="number" class="form-control" id="bills" name="bills">
-          </div>
-          <div class="col-md-2">
-              <label for="sports" class="form-label">Sports</label>
-              <input placeholder="games..." required type="number" class="form-control" id="sports" name="sports">
-          </div>
-          <div class="col-12">
-              <label for="extra_curricular" class="form-label">Extra Curricular</label>
-              <input placeholder="programs, events..." required type="number" class="form-control" id="extra_curricular" name="extra_curricular">
-          </div>
-          <div class="col-12">
-              <label for="notes" class="form-label">Notes</label>
-              <input placeholder="summarize what is done today" required type="text" class="form-control" id="notes" name="notes">
-          </div>
-          <div class="col-md-6">
-              <label for="current_date" class="form-label">Current Date</label>
-              <input required type="date" class="form-control" id="current_date" name="current_date">
-          </div>
-          <div class="col-12">
-              <div class="form-check">
-                <br>
-                  <input required class="form-check-input" required type="checkbox" id="gridCheck">
-                  <label class="form-check-label" for="gridCheck">
-                      I accept filled data are valid and correct
-                  </label>
-              </div>
-          </div>
-          <div class="col-12">
-            <br>
-            <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Submit</button>
+            <div style="position:relative">
+                <img src="https://www.rakacreative.com/wp-content/uploads/2018/12/Raka-TW-budget-planning-1024x512.png" style="width: 100%;height:300px;object-fit:cover;border-radius: 5px;" alt="">
+                <div style="position:absolute;top:40%;left:6%">
+                  <h1 style="color:black">Total Budget Remaining</h1>
+                  <h3 id="tota" style="color:green">Rs {{total}}</h3>
+                </div>
+            </div>
             <br><br>
+            <canvas id="myChart"></canvas>
+         <br><br><br>
+         <div style="max-height:600px;max-width:600px">
+         </div>
+
+         <br>
+         <h1>Annual Distribution</h1>
+         <br>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card text-white bg-primary">
+        <div class="card-header"><h4 style="color:white" style="color:white">School Items</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ school_items }}</h4>
         </div>
-      </form>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-success">
+        <div class="card-header"><h4 style="color:white" style="color:white">Food</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ food }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-danger">
+        <div class="card-header"><h4 style="color:white" style="color:white">Health</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ health }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-warning">
+        <div class="card-header"><h4 style="color:white" style="color:white">Transportation</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ transportation }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-info">
+        <div class="card-header"><h4 style="color:white" style="color:white">Clothes</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ clothes }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-secondary">
+        <div class="card-header"><h4 style="color:white" style="color:white">Bills</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ bills }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-dark">
+        <div class="card-header"><h4 style="color:white" style="color:white">Sports</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ sports }}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-white bg-primary">
+        <div class="card-header"><h4 style="color:white" style="color:white">Extra Curricular</h4></div>
+        <div class="card-body">
+          <h4 style="color:white" class="card-title">RS {{ extra_curricular }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+<br><br><br><br><br>
+<h1>Planning</h1>
+<br>
+<h3>How much would you like to save monthly?</h3>
+<p>20% of your total budget recommended below</p>
+<input
+id="saving"
+type="number"
+class="form-control shadow-none"
+style="max-width: 350px;"
+placeholder="Enter here"
+/>
+<button id="save_distribute" onclick="save_distribute()" style="border: none;padding:15px 25px;max-width: 180px;background-color: rgb(78, 78, 255);color: white;margin-top: 40px;border-radius: 4px;">Check Distribution</button>
+<br><br><br>
+<h3>Saving Distribution (Monthly):</h3>
+<br>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <div class="col">
+    <div class="card text-white bg-primary">
+      <div class="card-body">
+        <h3 class="card-title mb-3">School Items</h3>
+        <p id="si" class="card-text fs-4 fw-bold">RS {{ school_items }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white bg-success">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Food</h3>
+        <p id="f" class="card-text fs-4 fw-bold">RS {{ food }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white" style="background-color: rgb(143, 3, 143);">
+      <div class="card-body">
+        <h3 class="card-title mb-3 text-white">Health</h3>
+        <p id="h" class="card-text fs-4 fw-bold">RS {{ health }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white bg-warning">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Transportation</h3>
+        <p id="t" class="card-text fs-4 fw-bold">RS {{ transportation }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white bg-info">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Clothes</h3>
+        <p id="c" class="card-text fs-4 fw-bold">RS {{ clothes }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white bg-secondary">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Bills</h3>
+        <p id="bills" class="card-text fs-4 fw-bold">RS {{ bills }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white bg-dark">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Sports</h3>
+        <p id="sports" class="card-text fs-4 fw-bold">RS {{ sports }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card text-white bg-primary">
+      <div class="card-body">
+        <h3 class="card-title mb-3">Extra Curricular</h3>
+        <p id="extra_curricular" class="card-text fs-4 fw-bold">RS {{ extra_curricular }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<button style="border: none;padding:15px 35px;background-color: rgb(78, 78, 255);color: white;margin-top: 40px;border-radius: 4px;" onclick="submit_distribute()">Save Distribute</button>
+<br><br><br><br><br>
+<h4>Have you inserted today expenses of your school? If not click the button below</h4>
+<a href="/school-dashboard/daily-track">
+  <button style="border: none;padding:15px 35px;background-color: rgb(78, 78, 255);color: white;margin-top: 40px;border-radius: 4px;">Daily Track</button>
+</a>
+<br>
+<br>
+       
+      
       
       <br><br><br>
             <!-- / Content -->
@@ -569,10 +584,31 @@ required                     type="text"
 
   </div>
 
-<script>
- 
-// el.forEach(img => img.src = imagePath);
-</script>
+
+  <div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel" style="margin-top: 30px;color:green">Plan Saved</h5>
+        
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="margin:auto;display: block;margin-top: 20px;">
+          <img src="https://i.pinimg.com/originals/cd/6e/96/cd6e965e0a5769560a5c88d471fe0cb1.gif" style="height:100px;width:100px;border-radius: 100px;margin-left: 35%;" alt="">
+          <br><br>
+          <p style="text-align: center;font-size: 1.5rem;">Your monthly plan is successfully Saved</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" aria-label="Close" data-dismiss="modal" style="margin:auto">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
@@ -581,13 +617,130 @@ required                     type="text"
     <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
     <script src="/static/assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-<script>
-   
-
-
     
-</script>
+    <script>
+      const currentURL = window.location.href;
+
+// Split the URL by '/'
+const urlParts = currentURL.split('/');
+const lastPart = urlParts[urlParts.length - 1];
+
+// Get the last part of the URL
+let final_distribution=[]
+const save_distribute=()=>{
+        let ids= ["si", "f", "h", "t", "c", "bills", "sports", "extra_curricular"]
+        let to_save=document.getElementById("saving").value
+        let reduct=[30,15,10,10,15,10,5,5]
+        for (let x=0;x<ids.length;x++){
+          let el=document.getElementById(ids[x])
+          let total_budget=document.getElementById('tota').innerHTML
+          total_budget=parseInt(total_budget.split(" ")[1])
+          el.innerHTML="RS "+Math.floor((reduct[x]/100)*to_save)
+          console.log(el.innerHTML)
+          final_distribution.push(Math.floor((reduct[x]/100)*to_save))
+        }
+        final_distribution.push(true)
+        final_distribution.unshift(lastPart)
+        console.log(final_distribution)
+      }
+
+      const submit_distribute=()=>{
+        $('#myModal').modal('show');
+        data=final_distribution
+        $.ajax({
+    type: 'POST',
+    url: '/save_daily_saving_plan/',
+    data: { 'data[]': data },
+    success: function(response) {
+        console.log(response);
+    },
+    error: function(response) {
+        console.log(response);
+    }
+    
+});
+      }
+    </script>
+    <script>
+      let ids= ["si", "f", "h", "t", "c", "bills", "sports", "extra_curricular"]
+      let reduct=[30,15,10,10,15,10,5,5]
+      for (let x=0;x<ids.length;x++){
+        let el=document.getElementById(ids[x])
+        let total_budget=document.getElementById('tota').innerHTML
+        total_budget=parseInt(total_budget.split(" ")[1])
+        let to_save=total_budget*0.02
+          el.innerHTML="RS "+Math.floor((reduct[x]/100)*to_save)
+        }
+    </script>
+    <script>
+      let v=document.getElementById('tota').innerHTML
+      v=parseInt(v.split(" ")[1])
+      document.getElementById('saving').placeholder="Rs "+ Math.floor((0.2*v)/12)
+    </script>
+
+    <script>
+      let labels = [];
+let values = [];
+
+// Get all the <h4> elements
+let h4Elements = document.querySelectorAll('h4.card-title');
+
+// Loop through the <h4> elements
+h4Elements.forEach(function(element) {
+  // Get the label text and add it to the labels array
+  let label = element.parentNode.parentNode.querySelector('.card-header h4').textContent;
+  labels.push(label);
+
+  // Get the value and add it to the values array
+  let value = parseInt(element.textContent.split(' ')[1]);
+  values.push(value);
+});
+
+console.log(labels);
+console.log(values);
+
+var data = {
+    labels: labels,
+    datasets: [{
+        data: values,
+        backgroundColor: [
+        'rgb(255, 99, 132)',
+            'orange',
+            'yellow',
+            'green',
+            'blue',
+            'indigo',
+            'violet',
+            'gray'
+        ]
+    }]
+};
+var screenWidth = window.innerWidth;
+var config2 = {
+    type: 'polarArea',
+    data: data,
+    options: {
+        plugins: {
+            legend: {
+              
+              position: screenWidth < 500 ? 'bottom' : 'right'
+            }
+        }
+    }
+};
+
+var myChart = new Chart(
+    document.getElementById('myChart'),
+    config2
+);
+
+
+  
+ 
+    </script>
+    <!-- endbuild -->
+   
+    
     <!-- Vendors JS -->
     <script src="/static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 

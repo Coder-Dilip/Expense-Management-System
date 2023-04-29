@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class SchoolBudget(models.Model):
     school_username = models.CharField(max_length=100)
     school_items = models.IntegerField(default=0)   # computer, marker, desk, table, pen, paper, etc  
+    food=models.IntegerField(default=0)
     health = models.IntegerField(default=0)  #first aid kit, sanitary pads
     transportation = models.IntegerField(default=0)  # buses
     clothes = models.IntegerField(default=0)  # uniform, shoes, tie
@@ -14,6 +15,33 @@ class SchoolBudget(models.Model):
     sports = models.IntegerField(default=0)  # sports related 
     extra_curricular = models.IntegerField(default=0)  #events, programs
     distributed = models.BooleanField(default=False) #whether distributed or not
+
+
+# Monthly Saving Plan (1 row for one school)
+class MonthlySavingPlan(models.Model):
+    school_username = models.CharField(max_length=100)
+    school_items = models.IntegerField(default=0)   # computer, marker, desk, table, pen, paper, etc  
+    food=models.IntegerField(default=0)
+    health = models.IntegerField(default=0)  #first aid kit, sanitary pads
+    transportation = models.IntegerField(default=0)  # buses
+    clothes = models.IntegerField(default=0)  # uniform, shoes, tie
+    bills = models.IntegerField(default=0)   # electricity, water, gas, internet
+    sports = models.IntegerField(default=0)  # sports related 
+    extra_curricular = models.IntegerField(default=0)  #events, programs
+    status=models.BooleanField(default=True) # check if running out of plan or not
+
+
+#Daily saving plan (daily rows for each of the school)
+class DailySavingPlan(models.Model):
+    school_username = models.CharField(max_length=100)
+    school_items = models.IntegerField(default=0)   # computer, marker, desk, table, pen, paper, etc  
+    food=models.IntegerField(default=0)
+    health = models.IntegerField(default=0)  #first aid kit, sanitary pads
+    transportation = models.IntegerField(default=0)  # buses
+    clothes = models.IntegerField(default=0)  # uniform, shoes, tie
+    bills = models.IntegerField(default=0)   # electricity, water, gas, internet
+    sports = models.IntegerField(default=0)  # sports related 
+    extra_curricular = models.IntegerField(default=0)  #events, programs
 
 
 

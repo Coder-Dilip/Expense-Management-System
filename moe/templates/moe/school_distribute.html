@@ -1,0 +1,173 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tables</li>
+              </ol>
+            </nav>
+          </div>
+       
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h1 class="mb-0">Distribute to {{username}}</h1>
+            <br>
+        </div>
+        <form class="row g-3" style="padding:30px" method="post" id="daily-track-form">
+            {% csrf_token %}
+            <div class="col-md-12">
+                <h4 style="color:red">{{message}}</h4>
+                <label for="total_budget" class="form-label">Total Budget</label>
+                <input required type="number" class="form-control" id="total_budget" name="total_budget" placeholder="Total budget in Rs">
+                <br><br>
+                <div style="display:flex;flex-wrap: wrap; align-items: center;">
+                    <h3 style="margin-right: 20px;">Put all below value in %</h3>
+<input onclick="appl()" value="Apply Standard Fractions" style="padding:10px 50px;background-color: rgb(167, 73, 255);color: white;border:none;outline:none;border-radius: 4px; cursor: pointer;" readonly/>
+                </div>
+                <br><br>
+            </div>
+            <div class="col-md-6">
+                <label for="school_username" class="form-label">School Username</label>
+                <input required type="text" class="form-control" id="school_username" name="school_username" value="{{ username }}" readonly>
+                <br>
+            </div>
+            <div class="col-md-6">
+                <label for="school_items" class="form-label">School Items</label>
+                <input placeholder="furniture, desk... %" required type="number" class="form-control" id="school_items" name="school_items">
+                <br>
+            </div>
+            <div class="col-md-6">
+              <label for="food" class="form-label">Food</label>
+              <input placeholder="breakfast, launch... %" required type="number" class="form-control" id="food" name="food">
+              <br>
+          </div>
+            <div class="col-12">
+                <label for="health" class="form-label">Health</label>
+                <input placeholder="first aid, sanitary pad... %" required type="number" class="form-control" id="health" name="health">
+                <br>
+            </div>
+            <div class="col-12">
+                <label for="transportation" class="form-label">Transportation</label>
+                <input placeholder="bus, petrol... %" required type="number" class="form-control" id="transportation" name="transportation">
+                <br>
+            </div>
+            <div class="col-md-6">
+                <label for="clothes" class="form-label">Clothes</label>
+                <input placeholder="uniform,dress... %" required type="number" class="form-control" id="clothes" name="clothes">
+                <br>
+            </div>
+            <div class="col-md-4">
+                <label for="bills" class="form-label">Bills</label>
+                <input placeholder="Electricity ,gas... %" required type="number" class="form-control" id="bills" name="bills">
+                <br>
+            </div>
+            <div class="col-md-2">
+                <label for="sports" class="form-label">Sports</label>
+                <input placeholder="games... %" required type="number" class="form-control" id="sports" name="sports">
+                <br>
+            </div>
+            <div class="col-12">
+                <label for="extra_curricular" class="form-label">Extra Curricular</label>
+                <input placeholder="programs, events..." required type="number" class="form-control" id="extra_curricular" name="extra_curricular">
+                <br>
+            </div>
+       
+            <div class="col-12">
+              <br>
+              <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+              <br><br>
+          </div>
+        </form>
+      
+       
+          <!-- Light table -->
+
+          <!-- Card footer -->
+        
+        </div>
+      </div>
+    </div>
+    <!-- Dark table -->
+
+
+
+    <!-- Bootstrap Modal -->
+    <div  class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel" style="margin-top: 30px;color:green">Payment Successfull</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="margin:auto;display: block;margin-top: 20px;">
+            <img src="https://media.tenor.com/yQPfHp6AmGgAAAAC/money-with-wings-joypixels.gif" style="height:100px;width:100px;border-radius: 100px;margin-left: 35%;" alt="">
+            <br><br>
+            <p style="text-align: center;font-size: 1.5rem;">Budget is successfully delivered to the {{username}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" style="margin:auto">Okay</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- Modal -->
+ 
+<!-- Button trigger modal -->
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+  <!-- Include Bootstrap JS and your custom script -->
+<script>
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const key = urlParams.get('key');
+
+// Check if the value of the key parameter is "success" and show the modal if it is
+if (key === "success") {
+  $('#myModal').modal('show');
+}
+
+</script>
+
+<script>
+    const appl=()=>{
+        console.log("hello")
+    document.getElementById("school_items").value=30
+    document.getElementById('food').value=15
+    document.getElementById('health').value=10
+    document.getElementById('transportation').value=10
+    document.getElementById('clothes').value=15
+    document.getElementById('bills').value=10
+    document.getElementById('sports').value=5
+    document.getElementById('extra_curricular').value=5
+    }
+</script>
+{% endblock javascripts %}

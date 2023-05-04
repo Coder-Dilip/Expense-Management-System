@@ -412,6 +412,7 @@ sum_of_values += parseInt(data[0]['sports']);
 sum_of_values += parseInt(data[0]['extra_curricular']);
       let another=document.getElementById("hidden_total").innerHTML
       console.log(`garirako${another} expected ${sum_of_values}`)
+      document.getElementById("total_spent").innerHTML="RS "+sum_of_values
       if (Math.floor(parseInt(another))<=Math.floor(sum_of_values)){
         document.getElementById("message_spend").innerHTML="Congrats you are spending less than your plan"
         document.getElementById("message_spend").style.backgroundColor="green";

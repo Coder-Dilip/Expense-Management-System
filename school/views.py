@@ -1,12 +1,12 @@
 import datetime
 from django.shortcuts import render, redirect,get_object_or_404
 # Create your views here.
-from .models import DailyTrack, SchoolBudget, SchoolForm
+from .models import DailySavingPlan, DailyTrack, SchoolBudget, SchoolForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
 from django.http import JsonResponse
-
+from django.db.models import Sum
 
 @login_required(login_url="/login/")
 def school_form(request):
@@ -127,7 +127,8 @@ def school_form_list(request):
     return JsonResponse(data)
 
 def daily_track(request):
-   
+    if not MonthlySavingPlan.objects.filter(school_username=request.user.username).exists():
+        return redirect("/school-dashboard")
     if request.method == 'POST':
         school_username = request.POST.get('school_username')
         school_data = SchoolForm.objects.get(username=school_username)
@@ -220,7 +221,7 @@ def save_daily_saving_plan(request):
     if request.method == 'POST':
         data = request.POST.getlist('data[]')  # Get data from the POST request
         # Convert the data into the appropriate types
-        print(data[1])
+        print("lol",data)
         school_username = data[0]
         school_items = int(data[1])
         food = int(data[2])
@@ -236,8 +237,11 @@ def save_daily_saving_plan(request):
         if MonthlySavingPlan.objects.filter(school_username=school_username).exists():
             # Remove the previous data for the school_username
             MonthlySavingPlan.objects.filter(school_username=school_username).delete()
+        if DailySavingPlan.objects.filter(school_username=school_username).exists():
+            # Remove the previous data for the school_username
+            DailySavingPlan.objects.filter(school_username=school_username).delete()
         # Create a new MonthlySavingPlan instance with the received data
-        daily_saving_plan = MonthlySavingPlan(school_username=school_username,
+        monthly_saving_plan = MonthlySavingPlan(school_username=school_username,
                                              school_items=school_items,
                                              food=food,
                                              health=health,
@@ -247,7 +251,127 @@ def save_daily_saving_plan(request):
                                              sports=sports,
                                              extra_curricular=extra_curricular,
                                              status=status)
-        daily_saving_plan.save()  # Save the instance to the database
+        daily_saving_plan = DailySavingPlan(school_username=school_username,
+                                             school_items=school_items/30,
+                                             food=food/30,
+                                             health=health/30,
+                                             transportation=transportation/30,
+                                             clothes=clothes/30,
+                                             bills=bills/30,
+                                             sports=sports/30,
+                                             extra_curricular=extra_curricular/30,
+                                             )
+        
+        monthly_saving_plan.save()  # Save the instance to the database
+        daily_saving_plan.save()
         return JsonResponse({'success': True})  # Return a success response
     else:
         return JsonResponse({'success': False})  # Return an error response
+    
+
+def spendings(request):
+    return render(request, "school/spending.html")
+
+
+def get_school_expenses(request):
+    # Retrieve the DailyTrack instances for the specified school
+    daily_tracks = DailyTrack.objects.filter(school_username=request.user.username)
+
+    # Calculate the total expenses for each category
+    total_food = sum(track.food for track in daily_tracks)
+    total_school_items = sum(track.school_items for track in daily_tracks)
+    total_health = sum(track.health for track in daily_tracks)
+    total_transportation = sum(track.transportation for track in daily_tracks)
+    total_clothes = sum(track.clothes for track in daily_tracks)
+    total_bills = sum(track.bills for track in daily_tracks)
+    total_sports = sum(track.sports for track in daily_tracks)
+    total_extra_curricular = sum(track.extra_curricular for track in daily_tracks)
+
+    # Create a JavaScript object with the category expenses
+    expenses_obj = {
+        "food": total_food,
+        "school_items": total_school_items,
+        "health": total_health,
+        "transportation": total_transportation,
+        "clothes": total_clothes,
+        "bills": total_bills,
+        "sports": total_sports,
+        "extra_curricular": total_extra_curricular,
+    }
+
+    # Calculate the average expenses for each category
+    num_tracks = len(daily_tracks)
+    avg_food = total_food / num_tracks if num_tracks else 0
+    avg_school_items = total_school_items / num_tracks if num_tracks else 0
+    avg_health = total_health / num_tracks if num_tracks else 0
+    avg_transportation = total_transportation / num_tracks if num_tracks else 0
+    avg_clothes = total_clothes / num_tracks if num_tracks else 0
+    avg_bills = total_bills / num_tracks if num_tracks else 0
+    avg_sports = total_sports / num_tracks if num_tracks else 0
+    avg_extra_curricular = total_extra_curricular / num_tracks if num_tracks else 0
+
+    # Create a dictionary with the category average expenses
+    expenses_dict = {
+        "food": int(avg_food),
+        "school_items": int(avg_school_items),
+        "health": int(avg_health),
+        "transportation": int(avg_transportation),
+        "clothes": int(avg_clothes),
+        "bills": int(avg_bills),
+        "sports": int(avg_sports),
+        "extra_curricular": int(avg_extra_curricular),
+    }
+
+    # Render the expenses data as a JSON response
+    return JsonResponse(expenses_dict)
+
+
+
+from django.utils import timezone
+from django.http import JsonResponse
+from .models import SchoolBudget
+
+def expected_spending_api(request):
+    data = []
+    budget = SchoolBudget.objects.filter(school_username=request.user.username).first()
+    daily_saving_plan = DailySavingPlan.objects.filter(school_username=request.user.username).first()
+
+    # Extract the values for each category and store them in respective variables
+    school_items_school=daily_saving_plan.school_items
+    food_school = daily_saving_plan.food
+    health_school = daily_saving_plan.health
+    transportation_school = daily_saving_plan.transportation
+    clothes_school = daily_saving_plan.clothes
+    bills_school = daily_saving_plan.bills
+    sports_school = daily_saving_plan.sports
+    extra_curricular_school = daily_saving_plan.extra_curricular
+    
+    days_passed = (timezone.now().date() - budget.curr_date).days
+    if days_passed==365:
+        days_passed=1
+    else:
+        days_passed=365-days_passed    
+    school_items = int(budget.school_items / days_passed)
+    food = int(budget.food / days_passed)
+    health = int(budget.health / days_passed)
+    transportation = int(budget.transportation / days_passed)
+    clothes = int(budget.clothes / days_passed)
+    bills = int(budget.bills / days_passed)
+    sports = int(budget.sports / days_passed)
+    extra_curricular = int(budget.extra_curricular / days_passed)
+    data.append({
+        'school_username': budget.school_username,
+        'school_items': school_items-school_items_school,
+        'food': food-food_school,
+        'health': health-health_school,
+        'transportation': transportation-transportation_school,
+        'clothes': clothes-clothes_school,
+        'bills': bills-bills_school,
+        'sports': sports-sports_school,
+        'extra_curricular': extra_curricular-extra_curricular_school,
+        'distributed': budget.distributed,
+        'curr_date': budget.curr_date
+    })
+    return JsonResponse(data, safe=False)
+
+

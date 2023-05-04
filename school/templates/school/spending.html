@@ -1,0 +1,499 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html
+  lang="en"
+  class="light-style layout-menu-fixed"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="/static/assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <style>
+      
+    </style>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/boxicons.css' %}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}" />
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="/static/assets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/static/assets/js/config.js"></script>
+  </head>
+
+  <body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar" style="background-color: white;">
+      <div class="layout-container">
+        <!-- Menu -->
+
+        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <div class="app-brand demo">
+              <a href="/" class="app-brand-link">
+                <span class="app-brand-logo demo">
+                 <img src="/static/assets/img/favicon.png" alt="" style="width:150px;height:auto">
+                </span>
+              </a>
+  
+              <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                <i class="bx bx-chevron-left bx-sm align-middle"></i>
+              </a>
+            </div>
+  
+            <div class="menu-inner-shadow"></div>
+  
+            <ul class="menu-inner py-1">
+              <!-- Dashboard -->
+              <li class="menu-item">
+                <a href="/school-dashboard" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                  <div data-i18n="Analytics">Dashboard</div>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="/school-dashboard/stats/{{request.user.username}}" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-box"></i>
+                  <div data-i18n="Analytics">Stats & Plan</div>
+                </a>
+              </li>
+  
+              <!-- Layouts -->
+              <li class="menu-item">
+                <a href="/school-dashboard/daily-track" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-layout"></i>
+                  <div data-i18n="Layouts">Daily Track</div>
+                </a>
+  
+               
+              </li>
+  
+            
+  
+              <li class="menu-header small text-uppercase">
+                <span class="menu-header-text">Tools</span>
+              </li>
+              <li class="menu-item active">
+                <a href="/school-dashboard/spendings" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-money"></i>
+                  <div data-i18n="Layouts">Spendings</div>
+                </a>
+              </li>
+              
+                </ul>
+              </li>
+  
+              <!-- Extended components -->
+           
+              
+            </ul>
+          </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar"
+          >
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
+            </div>
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <!-- Search -->
+              <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                  <i class="bx bx-search fs-4 lh-0"></i>
+                  <input
+required                     type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                  />
+                </div>
+              </div>
+              <!-- /Search -->
+
+              <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+               <p style="margin-top: 18px" id="school_username"></p>
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                      <img class="school_profile" src="http://localhost:8000/media/{{img}}" alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar avatar-online">
+                              <img class="school_profile" src="" alt class="w-px-40 h-auto rounded-circle" />
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <span class="fw-semibold d-block">John Doe</span>
+                            <small class="text-muted">Admin</small>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="bx bx-user me-2"></i>
+                        <span class="align-middle">My Profile</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <i class="bx bx-cog me-2"></i>
+                        <span class="align-middle">Settings</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <span class="d-flex align-items-center align-middle">
+                          <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                          <span class="flex-grow-1 align-middle">Billing</span>
+                          <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="auth-login-basic.html">
+                        <i class="bx bx-power-off me-2"></i>
+                        <span class="align-middle">Log Out</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!--/ User -->
+              </ul>
+            </div>
+          </nav>
+
+          <!-- / Navbar -->
+
+          <!-- Content wrapper -->
+          <div class="content-wrapper" style="padding:30px">
+            <!-- Content -->
+ <img src="https://www.brightful.me/content/images/2021/05/2-1.jpg" style="width: 100%;height:250px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
+        <h1>Spendings</h1>
+        <p style="color:orangered;">Your Average Daily Spendings</p>
+       
+        <br><br>
+     
+       
+    
+        <div style="max-width: 1200px;max-height: 600px;">
+            <canvas width="500" height="400" id="polarArea"></canvas>
+        </div>
+        
+        <br><br><br>
+        <div id="expenses-container"></div>
+        <br><br>
+    <br><br><br><br>
+<h3 style="color:orange;display: flex;flex-wrap: wrap;flex-direction: row;">Daily Expected Spending</h3>
+<br><br>
+<p id="total_spent"></p>
+        <div id="expected-spending"></div>
+
+     
+<p id="message_spend" class="card text-white p-3"></p>
+            <!-- / Content -->
+
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+      <!-- Overlay -->
+      <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- / Layout wrapper -->
+    
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+ 
+//  school-dashboard/data-for-visualization
+ // Make a GET request to retrieve the expenses for the specified school
+ fetch('/school-dashboard/data-for-visualization')
+            .then(response => response.json())
+            .then(data => {
+               
+
+
+                var barChartCtx = document.getElementById('polarArea').getContext('2d');
+var barChart = new Chart(barChartCtx, {
+    type: 'bar',
+    data: {
+        labels: ['School items', 'Health', 'Transportation', 'Clothes', 'Bills', 'Food', 'Sports', 'Extra-curricular'],
+        datasets: [{
+            label: 'Expenses',
+            data: [data.school_items, data.health, data.transportation, data.clothes, data.bills, data.food, data.sports, data.extra_curricular],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#4CAF50', '#9B4DCA']
+        }]
+    },
+    options: {
+        legend: {
+            display: true,
+            position: 'right'
+        },
+        scales: {
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines: {
+                    display: false
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines: {
+                    display: true
+                }
+            }]
+        },
+        plugins: {
+            datalabels: {
+                align: 'end',
+                anchor: 'end',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value, context) {
+                    return '$' + value.toFixed(2); // format the value as currency with two decimal places
+                }
+            }
+        }
+    }
+});
+
+
+
+
+document.getElementById("total_spent").innerHTML="RS "+Object.values(data).reduce((total, amount) => total + amount)
+                
+               const card = `
+  <div class="card bg-gradient-primary text-white">
+    <div class="card-header">School Expenses</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="card-title">Total Average Daily Expenses:</h5>
+          <p id="hidden_total" style="opacity:0">${Object.values(data).reduce((total, amount) => total + amount)}</p>
+          <h2>\u20A8${Object.values(data).reduce((total, amount) => total + amount)}</h2>
+          <img src="https://media.istockphoto.com/id/1257972107/vector/premium-cash-reward-vector-concept-metaphor.jpg?s=612x612&w=0&k=20&c=Su7Gm6XVDV8RxBTXd6XRsKdKvjDgv_1sRrSd2j_Kbyw="  width="400" height="400">
+        </div>
+        <div class="col-md-6">
+          <ul class="list-unstyled">
+            <li style="color:black;"><span class="badge bg-info" style="margin-top:10px;font-size:1.2rem;margin-right:20px">School Items:</span> \u20A8 ${data.school_items}</li>
+<li style="color:black;"><span class="badge bg-warning text-dark" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Health:</span> \u20A8 ${data.health}</li>
+<li style="color:black;"><span class="badge bg-success" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Transportation:</span> \u20A8 ${data.transportation}</li>
+<li style="color:black;"><span class="badge bg-danger" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Bills:</span> \u20A8 ${data.bills}</li>
+<li style="color:black;"><span class="badge bg-secondary" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Clothes:</span> \u20A8 ${data.clothes}</li>
+<li style="color:black;"><span class="badge bg-primary" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Sports:</span> \u20A8 ${data.sports}</li>
+<li style="color:black;"><span class="badge bg-dark" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Extra-Curricular:</span> \u20A8 ${data.extra_curricular}</li>
+<li style="color:black;"><span class="badge bg-primary" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Food:</span> \u20A8 ${data.food}</li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+               const expected_card = `
+  <div class="card bg-gradient-primary text-white">
+    <div class="card-header">School Expenses</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="card-title">Expected Daily Expenses:</h5>
+          <h2>\u20A8${Object.values(data).reduce((total, amount) => total + amount)}</h2>
+          <img src="https://media.istockphoto.com/id/1257972107/vector/premium-cash-reward-vector-concept-metaphor.jpg?s=612x612&w=0&k=20&c=Su7Gm6XVDV8RxBTXd6XRsKdKvjDgv_1sRrSd2j_Kbyw="  width="400" height="400">
+        </div>
+        <div class="col-md-6">
+          <ul class="list-unstyled">
+            <li style="color:black;"><span class="badge bg-info" style="margin-top:10px;font-size:1.2rem;margin-right:20px">School Items:</span> \u20A8 ${data.school_items}</li>
+<li style="color:black;"><span class="badge bg-warning text-dark" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Health:</span> \u20A8 ${data.health}</li>
+<li style="color:black;"><span class="badge bg-success" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Transportation:</span> \u20A8 ${data.transportation}</li>
+<li style="color:black;"><span class="badge bg-danger" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Bills:</span> \u20A8 ${data.bills}</li>
+<li style="color:black;"><span class="badge bg-secondary" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Clothes:</span> \u20A8 ${data.clothes}</li>
+<li style="color:black;"><span class="badge bg-primary" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Sports:</span> \u20A8 ${data.sports}</li>
+<li style="color:black;"><span class="badge bg-dark" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Extra-Curricular:</span> \u20A8 ${data.extra_curricular}</li>
+<li style="color:black;"><span class="badge bg-primary" style="margin-top:10px;font-size:1.2rem;margin-right:20px">Food:</span> \u20A8 ${data.food}</li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
+
+
+
+$.ajax({
+      url: '/school-dashboard/expected-spending-api',
+      type: 'GET',
+      success: function(response) {
+        showExpectedSpending(response);
+      }
+    });
+      
+    function showExpectedSpending(data) {
+      let sum_of_values=0
+
+sum_of_values += parseInt(data[0]['school_items']);
+sum_of_values += parseInt(data[0]['food']);
+sum_of_values += parseInt(data[0]['health']);
+sum_of_values += parseInt(data[0]['transportation']);
+sum_of_values += parseInt(data[0]['clothes']);
+sum_of_values += parseInt(data[0]['bills']);
+sum_of_values += parseInt(data[0]['sports']);
+sum_of_values += parseInt(data[0]['extra_curricular']);
+      let another=document.getElementById("hidden_total").innerHTML
+      console.log(`garirako${another} expected ${sum_of_values}`)
+      if (Math.floor(parseInt(another))<=Math.floor(sum_of_values)){
+        document.getElementById("message_spend").innerHTML="Congrats you are spending less than your plan"
+        document.getElementById("message_spend").style.backgroundColor="green";
+        document.getElementById("message_spend").style.color="white";
+      }else{
+        document.getElementById("message_spend").innerHTML="Be cautious you are spending more than your plan"
+        document.getElementById("message_spend").style.backgroundColor="orangered";
+        document.getElementById("message_spend").style.color="white";
+
+      }
+    var expectedSpendingList = $('#expected-spending');
+    expectedSpendingList.empty(); // Clear the list before adding new content
+
+    // Define an object that maps category names to avatar icons
+    var avatarIcons = {
+        'school_items': '<i class="bx bx-mobile-alt"></i>',
+        'health': '<i class="bx bx-heart"></i>',
+        'transportation': '<i class="bx bx-car"></i>',
+        'sports': '<i class="bx bx-football"></i>',
+        'bills': '<i class="bx bx-receipt"></i>',
+        'clothes': '<i class="bx bx-home"></i>',
+        'food': '<i class="bx bx-cake"></i>',
+        'extra_curricular': '<i class="bx bx-phone"></i>',
+    };
+
+    let categories=['school_items','health','transportation','sports','bills','clothes','extra_curricular','food']
+    // Loop through the data and create a list item for each item
+    for (var i = 0; i < categories.length; i++) {
+        var category = data[0][categories[i]];
+        var avatarIcon = avatarIcons[categories[i]] || '<i class="bx bx-money"></i>';
+
+        var listItemHtml = `<li class="d-flex mb-4 pb-1" style="padding:10px;max-width:300px;border-radius:4px">`;
+        listItemHtml += '<div class="avatar flex-shrink-0 me-3"><span class="avatar-initial rounded bg-label-primary">' + avatarIcon + '</span></div>';
+        listItemHtml += '<div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">';
+        listItemHtml += '<div class="me-2">';
+        listItemHtml += '<h6 class="mb-0">' + categories[i] + '</h6>';
+        listItemHtml += '<small class="text-muted">' + "RS "+ data[0][categories[i]] + '</small>';
+        listItemHtml += '</div>';
+        listItemHtml += '<div class="user-progress">';
+        // listItemHtml += '<small class="fw-semibold">' + data[0][categories[i]] + '</small>';
+        listItemHtml += '</div>';
+        listItemHtml += '</div></li>';
+
+        expectedSpendingList.append(listItemHtml); // Add the list item to the list
+    }
+}
+
+
+
+    // Append the card to a container element on your page
+    const container = document.getElementById('expenses-container');
+    container.innerHTML = card;
+
+
+
+            });
+</script>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/static/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/static/assets/vendor/js/bootstrap.js"></script>
+    <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/static/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+<script>
+
+  
+    
+    
+</script>
+    <!-- Vendors JS -->
+    <script src="/static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/static/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/static/assets/js/dashboards-analytics.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>

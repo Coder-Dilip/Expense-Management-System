@@ -4,12 +4,13 @@ from school.models import SchoolForm
 from . import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse,JsonResponse
-from .models import School
+from .models import School,Posts
 from django.contrib.auth.models import User
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 # Create your views here.
-
+from django.core import serializers
 def index(request):
     return render(request,"frontend/index.html")
 
@@ -84,7 +85,7 @@ def contact(request):
     import os
 
     # Set up OpenAI API credentials
-    openai.api_key ="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"
+    openai.api_key ="put api key here"
 
     # Set up the GPT-3 model
     model_engine = "text-davinci-003"
@@ -161,3 +162,42 @@ def budget_calculator(req):
     return render(req, 'frontend/home/calculator.html')
 
 
+def blog(req):
+    return render(req,'frontend/home/blog.html')
+
+
+def about(req):
+    return render(req,'frontend/home/about.html')
+
+
+@login_required(login_url="/login/")
+def posts(req):
+    return render(req,'frontend/home/posts.html')
+
+
+def create_post(request):
+    if request.method == 'POST':
+        user = request.user
+        description = request.POST.get('description')
+        image_file = request.FILES.get('image')
+        post = Posts(user=user, description=description, image_file=image_file)
+        post.save()
+        return JsonResponse({'success': True})
+    return redirect('/posts')
+
+
+
+def posts_json(request):
+    posts = Posts.objects.all()
+    data = []
+    for post in posts:
+        # Serialize the Posts instance to a dictionary
+        post_dict = serializers.serialize('python', [post])[0]['fields']
+        # Get the User object associated with the post and serialize it to a dictionary
+        user_dict = serializers.serialize('python', [post.user])[0]['fields']
+        # Add the username from the User object to the Posts dictionary
+        post_dict['username'] = user_dict['username']
+        # Add the updated Posts dictionary to the data list
+        data.append(post_dict)
+    # Serialize the data list to JSON and return it
+    return JsonResponse(data, safe=False)

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Social</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!-- Custom CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<style>
+  *{
+    scroll-behavior: smooth;
+  }
+  #list_of_posts {
+  /* display: flex;
+  flex-wrap: wrap; */
+  max-width: 700px;
+}
+  .card {
+    flex: 1;
+  margin: 10px;
+}
+.like-icon.red {
+  color: red;
+}
+@media (max-width: 700px) {
+  .card {
+    flex: 0 0 100%;
+  }
+}
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content {
+  position: absolute;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.hero-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #4CAF50;
+  color: #FFFFFF;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.hero-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+</style>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% include 'frontend/includes/nav.html' %}
+<br><br><br><br><br><br>
+<body>
+  <div class="hero" style="margin-top: -100px;">
+    <div class="hero-content">
+      <h1 class="hero-title">Posts done by the schools</h1>
+      <p class="hero-description">Look others progress and achievement to get inspiration</p>
+      <a href="#look_posts" class="hero-button">Get Started</a>
+    </div>
+    <img src="https://cdn.dribbble.com/users/925704/screenshots/6513438/scrolling.gif" alt="Hero Image" class="hero-image">
+  </div>
+  
+   <br><br>
+    <div id="look_posts" class="" style="width:100vw">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header">Create a New Post</div>
+              <div class="card-body">
+                <form id="post-form" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" class="form-control" rows="2"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="image">Image</label>
+                    <input type="file" class="form-control-file" id="image" name="image" onchange="previewImage(event)">
+                    <img id="preview" style="width: 300px; height:300px;object-fit: cover; margin-top: 30px;margin-bottom: 30px;display: none;border-radius: 10px;">
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 30px;">Post</button>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        
+      </div>
+      <br><br><br><br>
+      <h2 style="font-family: sans-serif;text-align: center;">Recent Posts Done by Schools</h2>
+      <br><br><br>
+      <div id="list_of_posts" style="margin:auto">
+
+
+      </div>
+      
+	<!-- Bootstrap JS -->
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    
+    <script>
+        $(function() {
+            $('#post-form').submit(function(event) {
+        event.preventDefault(); // Prevent form from submitting normally
+        
+        var form_data = new FormData($('#post-form')[0]); // Get form data
+        
+        $.ajax({
+          type: 'POST',
+          url: '/create-post',
+          data: form_data,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+            // Handle success response
+            alert('Post created successfully!');
+            $('#post-form')[0].reset(); // Clear form data
+            window.location.reload()
+          },
+          error: function(data) {
+            // Handle error response
+            alert('An error occurred while creating the post.');
+          }
+        });
+      });
+    });
+    
+    
+    </script>
+
+    <!-- Include jQuery library -->
+
+<!-- Define a script block to make the AJAX request and append the Bootstrap cards -->
+<script>
+$(document).ready(function() {
+  // Make an AJAX request to the API to get the JSON data
+  $.getJSON('/posts-json/', function(data) {
+    // Iterate over each post object in the JSON data
+    $.each(data, function(index, post) {
+      // Extract the username, image URL, and description from the post object
+      console.log(post)
+      var username = post.username;
+      console.log(username)
+      var image_url = post.image_file;
+      console.log(image_url)
+      var description = post.description;
+      var curr_date=post.curr_date
+      // Create a Bootstrap card for the post and append it to the list_of_posts div
+    // Create a Bootstrap card for the post and append it to the list_of_posts div
+var card_html = `
+  <div class="card mb-3" style="border:none;">
+    <div class="card-header bg-white">
+      <div class="d-flex align-items-center" style="margin-left:-15px">
+        <img src="/media/${image_url}" class="rounded-circle mr-2" width="40" height="40" alt="${username} profile picture">
+        <div>
+          <h5 class="card-title mb-0">${username}</h5>
+          <small class="text-muted">${curr_date}</small>
+        </div>
+      </div>
+    </div>
+    
+    <img src="/media/${image_url}" class="card-img-top" style="max-width:700px;object-fit:cover;height:400px;border-radius:10px" alt="${username} post image">
+    <br>
+    <p class="card-text" style="font-size:1.3rem">${description}</p>
+    <div class="card-body" style="margin-left:-20px">
+      <div class="d-flex align-items-center mb-3">
+        <i  id="${index}" class="far fa-heart mr-2 like-icon" onclick="reddish()" style="font-size:30px;cursor:pointer"></i>
+
+<br>
+        <p id="${index}${index}">${Math.floor(Math.random()*11)+1}</p>
+
+        <p style="margin-left:5px"> Likes</p>
+      </div>
+      <br>
+      <input placeholder="Add a comment..."  style="width:100%;padding:15px"/>
+    </div>
+  </div>
+  <br><br>
+`;
+$('#list_of_posts').prepend(card_html);
+
+    });
+  });
+});
+$('.like-icon').click(function() {
+  $(this).toggleClass('red');
+  console.log("hello")
+});
+</script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        function previewImage(event) {
+  var reader = new FileReader();
+  reader.onload = function(){
+    var output = document.getElementById('preview');
+    output.src = reader.result;
+    output.style.display='block'
+  };
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+
+
+const reddish=()=>{
+ var heartIcons = document.querySelectorAll('.like-icon');
+
+// Loop through each heart icon and add a click event listener
+heartIcons.forEach(function(icon) {
+  icon.addEventListener('click', function() {
+    // Toggle the 'red' class on the clicked heart icon
+    this.classList.toggle('red');
+  });
+})
+}
+    </script>
+
+
+
+</body>
+</html>

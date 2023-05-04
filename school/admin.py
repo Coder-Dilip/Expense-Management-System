@@ -14,7 +14,7 @@ class DailyTracking(admin.ModelAdmin):
 admin.site.register(DailyTrack,DailyTracking)
 
 class SchoolBudgeting(admin.ModelAdmin):
-    list_display=('id','school_username','distributed')
+    list_display=('id','school_username','curr_date','distributed')
 admin.site.register(SchoolBudget,SchoolBudgeting)
 
 class saveMonthlyDistribute(admin.ModelAdmin):

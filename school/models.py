@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 
 # for classifying the budget to schoool by the moe
+from django.utils import timezone
+
 class SchoolBudget(models.Model):
     school_username = models.CharField(max_length=100)
     school_items = models.IntegerField(default=0)   # computer, marker, desk, table, pen, paper, etc  
@@ -15,7 +17,12 @@ class SchoolBudget(models.Model):
     sports = models.IntegerField(default=0)  # sports related 
     extra_curricular = models.IntegerField(default=0)  #events, programs
     distributed = models.BooleanField(default=False) #whether distributed or not
+    curr_date = models.DateField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.curr_date = timezone.now().date()
+        super(SchoolBudget, self).save(*args, **kwargs)
 
 # Monthly Saving Plan (1 row for one school)
 class MonthlySavingPlan(models.Model):

@@ -12,10 +12,18 @@ urlpatterns = [
     path('school-dashboard',views.school_dashboard),
     path('school-dashboard/daily-track',views.daily_track),
     path('school-dashboard/stats/<username>',views.statistics),
+    path('school-dashboard/automate',views.automate),
     path('school-dashboard/spendings',views.spendings),
     path('save_daily_saving_plan/', views.save_daily_saving_plan, name='save_daily_saving_plan'),
     path('school-dashboard/data-for-visualization',views.get_school_expenses),
-    path('school-dashboard/expected-spending-api',views.expected_spending_api)
+    path('school-dashboard/saving-data-for-visualization',views.get_school_saving_expenses),
+    path('school-dashboard/expected-spending-api',views.expected_spending_api),
+    path('school-dashboard/expected-saving-api',views.expected_saving_api),
+    path('school-dashboard/savings',views.savings),
+    path('school-dashboard/reports',views.reports),
+    path('dummy-letter/', views.dummy_letter, name='dummy_letter'),
+    path('dummy-letter2/', views.dummy_letter2, name='dummy_letter'),
+
 
 ]
 

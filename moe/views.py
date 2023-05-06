@@ -1,15 +1,18 @@
 from django.shortcuts import render,redirect
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from frontend.models import School
-from school.models import SchoolBudget, SchoolForm
+from school.models import Report, SchoolBudget, SchoolForm
 @login_required(login_url="/login/")
 def index(request):
+    if School.objects.filter(user=request.user).exists():
+        return redirect('/school-dashboard')
+
     return render(request,"moe/index.html")
 
 
@@ -110,4 +113,11 @@ def school_distribute(request, username):
     return render(request,"moe/school_distribute.html",{'username':username,'message':""})
 
 
+
+def school_reports(request):
+    return render(request, 'moe/school_reports.html')
+
+def get_reports(request):
+    reports = list(Report.objects.all().values())
+    return JsonResponse({'reports': reports})
 

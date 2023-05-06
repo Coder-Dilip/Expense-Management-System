@@ -14,7 +14,10 @@ urlpatterns = [
 
     # verify school
     path("verify/<username>",views.verify_school),
-    path("distribute-budget/<username>",views.distribute_budget)
+    path("distribute-budget/<username>",views.distribute_budget),
+    path("admin-dashboard/reports",views.school_reports),
+     path('reports/', views.get_reports, name='get_reports'),
+     path('report_detail/<id>', views.get_reports, name='report_detail'),
 ]
 
 

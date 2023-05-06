@@ -1,0 +1,142 @@
+
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Tables</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">Tables</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tables</li>
+              </ol>
+            </nav>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0">School Reports</h3>
+          </div>
+          <!-- Light table -->
+          <div class="table-responsive">
+           
+          </div>
+          <!-- Card footer -->
+          <div class="card-footer py-4">
+          
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>S.N</th>
+                  <th>School Username</th>
+                  <!-- <th>Message</th> -->
+                  <th>Date</th>
+                  <th>Type of Letter</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <tbody id="report-table-body">
+                <!-- Reports will be added here dynamically with JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dark table -->
+
+    <div class="modal fade" id="view-modal" tabindex="-1" aria-labelledby="view-modal-label" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="view-modal-label">View Report</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id="view-modal-message"></p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="change">Change Distribution</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+ 
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script>
+  // JavaScript to fetch data from API endpoint and render as Bootstrap table
+  fetch('/reports/')
+    .then(response => response.json())
+    .then(data => {
+      const reportTableBody = document.getElementById('report-table-body');
+      data.reports.forEach(report => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${report.id}</td>
+          <td>${report.school_username}</td>
+          <td>${report.curr_date}</td>
+          <td>${report.type_of_letter}</td>
+          <td > 
+   
+   <button type="button" class="btn btn-sm btn-primary view-report" style="background-color:white !important;border:none" data-message="${report.message}" data-types="${report.type_of_letter}" data-school="${report.school_username}">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGa6TGsEK-fPr9Umxx_cH8kx-5kINz2jl0ttbvl9_CQdQZVFDYjbqo4cFayz9xRelaL0o&usqp=CAU" style="width:20px;height:auto">
+            </button>
+  </td>
+        `;
+        reportTableBody.appendChild(row);
+      });
+     // JavaScript to show modal and populate with message when view icon is clicked
+     const viewReportBtns = document.querySelectorAll('.view-report');
+      viewReportBtns.forEach(viewReportBtn => {
+        viewReportBtn.addEventListener('click', () => {
+          const message = viewReportBtn.dataset.message;
+          const typeofmessage = viewReportBtn.dataset.types;
+          const school=viewReportBtn.dataset.school;
+          if(typeofmessage!="request"){
+          document.getElementById("change").style.display='none';
+          }else{
+            document.getElementById("change").style.display='inline';
+            document.getElementById("change").addEventListener("click",(()=>{
+window.location.replace("/admin-dashboard/distribute/"+school)
+            }))
+          }
+          const viewModalMessage = document.getElementById('view-modal-message');
+          viewModalMessage.style.whiteSpace = 'pre-wrap';
+          viewModalMessage.textContent = message.replace(/<br>/g,"\n");
+          $('#view-modal').modal('show');
+        });
+      });
+    
+    });
+</script>
+
+
+
+{% endblock javascripts %}

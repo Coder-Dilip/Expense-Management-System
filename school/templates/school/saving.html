@@ -99,7 +99,7 @@
                   <i class="menu-icon tf-icons bx bx-layout"></i>
                   <div data-i18n="Layouts">Daily Track</div>
                 </a>
-           
+  
                
               </li>
   
@@ -108,13 +108,13 @@
               <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Tools</span>
               </li>
-              <li class="menu-item active">
+              <li class="menu-item">
                 <a href="/school-dashboard/spendings" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-money"></i>
                   <div data-i18n="Layouts">Spendings</div>
                 </a>
               </li>
-              <li class="menu-item">
+              <li class="menu-item active">
                 <a href="/school-dashboard/savings" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-save"></i>
                   <div data-i18n="Layouts">Savings</div>
@@ -146,16 +146,16 @@
         <div class="layout-page">
           <!-- Navbar -->
 
-      
-
+        
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
           <div class="content-wrapper" style="padding:30px">
             <!-- Content -->
- <img src="https://www.novative.com/wp-content/uploads/2020/11/Expense-Mgt-Software-Functionalities.jpg" style="width: 100%;height:350px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
-        <h1>Spendings</h1>
-        <p style="color:orangered;">Your Average Daily Spendings</p>
+ <img src="https://www.creativefabrica.com/wp-content/uploads/2020/04/06/Saving-Money-Flat-Design-Illustration-Graphics-3807261-1.jpg" style="width: 100%;height:350px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
+        <h1>Savings</h1>
+        <p style="color:orangered;font-size: 1.5rem;">Your Average Daily saving</p>
+        <p style="color:rgb(0, 119, 255);">If bar chart is heading down then you are running in loss on that category</p>
        
         <br><br>
      
@@ -169,7 +169,7 @@
         <div id="expenses-container"></div>
         <br><br>
     <br><br><br><br>
-<h3 style="color:orange;display: flex;flex-wrap: wrap;flex-direction: row;">Daily Expected Spending</h3>
+<h3 style="color:orange;display: flex;flex-wrap: wrap;flex-direction: row;">Daily Expected Saving</h3>
 <br><br>
 <h4 id="total_spent"></h4>
         <div id="expected-spending"></div>
@@ -197,11 +197,17 @@
  
 //  school-dashboard/data-for-visualization
  // Make a GET request to retrieve the expenses for the specified school
- fetch('/school-dashboard/data-for-visualization')
+ fetch('/school-dashboard/saving-data-for-visualization')
             .then(response => response.json())
             .then(data => {
                
+let spent_values=[data.school_items, data.health, data.transportation, data.clothes, data.bills, data.food, data.sports, data.extra_curricular]
 
+// for (let i=0;i<spent_values.length;i++){
+//   if (spent_values[i]<0){
+//     spent_values[i]=0
+//   }
+// }
 
                 var barChartCtx = document.getElementById('polarArea').getContext('2d');
 var barChart = new Chart(barChartCtx, {
@@ -210,10 +216,10 @@ var barChart = new Chart(barChartCtx, {
         labels: ['School items', 'Health', 'Transportation', 'Clothes', 'Bills', 'Food', 'Sports', 'Extra-curricular'],
         datasets: [{
             label: 'Expenses',
-            data: [data.school_items, data.health, data.transportation, data.clothes, data.bills, data.food, data.sports, data.extra_curricular],
+            data: spent_values,
             backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#4CAF50', '#9B4DCA'],
             borderRadius:30
-        }]
+                  }]
     },
     options: {
         legend: {
@@ -265,7 +271,7 @@ document.getElementById("total_spent").innerHTML="RS "+Object.values(data).reduc
     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
-          <h5 class="card-title">Total Average Daily Expenses:</h5>
+          <h5 class="card-title">Total Average Daily Savings:</h5>
           <p id="hidden_total" style="opacity:0">${Object.values(data).reduce((total, amount) => total + amount)}</p>
           <h2>\u20A8${Object.values(data).reduce((total, amount) => total + amount)}</h2>
           <img src="https://media.istockphoto.com/id/1257972107/vector/premium-cash-reward-vector-concept-metaphor.jpg?s=612x612&w=0&k=20&c=Su7Gm6XVDV8RxBTXd6XRsKdKvjDgv_1sRrSd2j_Kbyw="  width="400" height="400">
@@ -320,7 +326,7 @@ document.getElementById("total_spent").innerHTML="RS "+Object.values(data).reduc
 
 
 $.ajax({
-      url: '/school-dashboard/expected-spending-api',
+      url: '/school-dashboard/expected-saving-api',
       type: 'GET',
       success: function(response) {
         showExpectedSpending(response);
@@ -341,12 +347,12 @@ sum_of_values += parseInt(data[0]['extra_curricular']);
       let another=document.getElementById("hidden_total").innerHTML
       console.log(`garirako${another} expected ${sum_of_values}`)
       document.getElementById("total_spent").innerHTML="RS "+sum_of_values
-      if (Math.floor(parseInt(another))<=Math.floor(sum_of_values)){
-        document.getElementById("message_spend").innerHTML="Congrats you are spending less than your plan"
+      if (Math.floor(parseInt(another))>=Math.floor(sum_of_values)){
+        document.getElementById("message_spend").innerHTML="Congrats you are saving more than your plan"
         document.getElementById("message_spend").style.backgroundColor="green";
         document.getElementById("message_spend").style.color="white";
       }else{
-        document.getElementById("message_spend").innerHTML="Be cautious you are spending more than your plan"
+        document.getElementById("message_spend").innerHTML="Be cautious you are saving less than your plan"
         document.getElementById("message_spend").style.backgroundColor="orangered";
         document.getElementById("message_spend").style.color="white";
 

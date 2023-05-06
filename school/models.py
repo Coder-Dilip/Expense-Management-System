@@ -51,6 +51,17 @@ class DailySavingPlan(models.Model):
     extra_curricular = models.IntegerField(default=0)  #events, programs
 
 
+#money saved daily
+class DailySaving(models.Model):
+    school_username = models.CharField(max_length=100)
+    school_items = models.IntegerField(default=0)   # computer, marker, desk, table, pen, paper, etc  
+    food=models.IntegerField(default=0)
+    health = models.IntegerField(default=0)  #first aid kit, sanitary pads
+    transportation = models.IntegerField(default=0)  # buses
+    clothes = models.IntegerField(default=0)  # uniform, shoes, tie
+    bills = models.IntegerField(default=0)   # electricity, water, gas, internet
+    sports = models.IntegerField(default=0)  # sports related 
+    extra_curricular = models.IntegerField(default=0)  #events, programs
 
 
 # for daily tracking the budget by school
@@ -77,8 +88,6 @@ class SchoolForm(models.Model):
     state=models.IntegerField()
     pan=models.CharField(max_length=30)
     image_file = models.ImageField(upload_to='images/')
-
-
 
 
     # Infrastructure details
@@ -109,3 +118,14 @@ class SchoolForm(models.Model):
     def __str__(self):
         return self.image_file.name
     
+
+class Report(models.Model):
+    school_username=models.CharField(max_length=100)
+    message=models.CharField(max_length=300)
+    curr_date = models.DateField(auto_now_add=True)
+    type_of_letter=models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.curr_date = timezone.now().date()
+        super(Report, self).save(*args, **kwargs)

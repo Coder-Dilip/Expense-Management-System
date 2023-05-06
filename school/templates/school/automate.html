@@ -99,7 +99,7 @@
                   <i class="menu-icon tf-icons bx bx-layout"></i>
                   <div data-i18n="Layouts">Daily Track</div>
                 </a>
-           
+              
                
               </li>
   
@@ -108,7 +108,7 @@
               <li class="menu-header small text-uppercase">
                 <span class="menu-header-text">Tools</span>
               </li>
-              <li class="menu-item active">
+              <li class="menu-item">
                 <a href="/school-dashboard/spendings" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-money"></i>
                   <div data-i18n="Layouts">Spendings</div>
@@ -126,7 +126,7 @@
                   <div data-i18n="Layouts">Reports</div>
                 </a>
               </li>
-              <li class="menu-item">
+              <li class="menu-item active">
                 <a href="/school-dashboard/automate" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-save"></i>
                   <div data-i18n="Layouts">Automate</div>
@@ -146,40 +146,24 @@
         <div class="layout-page">
           <!-- Navbar -->
 
-      
-
+        
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
           <div class="content-wrapper" style="padding:30px">
             <!-- Content -->
- <img src="https://www.novative.com/wp-content/uploads/2020/11/Expense-Mgt-Software-Functionalities.jpg" style="width: 100%;height:350px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
-        <h1>Spendings</h1>
-        <p style="color:orangered;">Your Average Daily Spendings</p>
-       
-        <br><br>
-     
-       
-    
-        <div style="max-width: 1200px;max-height: 600px;">
-            <canvas width="500" height="400" id="polarArea"></canvas>
-        </div>
-        
+ <img src="https://unblast.com/wp-content/uploads/2022/04/Sales-and-Marketing-Illustration.jpg" style="width: 100%;height:350px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
+ <h2>Automate</h2>
+
         <br><br><br>
-        <div id="expenses-container"></div>
+        <div id="expenses-container">
+
+        </div>
         <br><br>
     <br><br><br><br>
-<h3 style="color:orange;display: flex;flex-wrap: wrap;flex-direction: row;">Daily Expected Spending</h3>
-<br><br>
-<h4 id="total_spent"></h4>
-        <div id="expected-spending"></div>
-
-     
-<p id="message_spend" class="card text-white p-3"></p>
-            <!-- / Content -->
 
 
-            <div class="content-backdrop fade"></div>
+         
           </div>
           <!-- Content wrapper -->
         </div>
@@ -211,8 +195,7 @@ var barChart = new Chart(barChartCtx, {
         datasets: [{
             label: 'Expenses',
             data: [data.school_items, data.health, data.transportation, data.clothes, data.bills, data.food, data.sports, data.extra_curricular],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#4CAF50', '#9B4DCA'],
-            borderRadius:30
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#4CAF50', '#9B4DCA']
         }]
     },
     options: {

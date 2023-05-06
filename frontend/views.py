@@ -85,7 +85,7 @@ def contact(request):
     import os
 
     # Set up OpenAI API credentials
-    openai.api_key ="put api key here"
+    openai.api_key ="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"
 
     # Set up the GPT-3 model
     model_engine = "text-davinci-003"
@@ -201,3 +201,7 @@ def posts_json(request):
         data.append(post_dict)
     # Serialize the data list to JSON and return it
     return JsonResponse(data, safe=False)
+
+
+
+

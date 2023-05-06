@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import DailySavingPlan, MonthlySavingPlan, SchoolForm,DailyTrack,SchoolBudget
+from .models import DailySavingPlan, MonthlySavingPlan, SchoolForm,DailyTrack,SchoolBudget, DailySaving, Report
 
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id','username','email','name','contact_email')
@@ -24,3 +24,12 @@ admin.site.register(MonthlySavingPlan,saveMonthlyDistribute)
 class saveDailyDistribute(admin.ModelAdmin):
     list_display=(id,'school_username','school_items')
 admin.site.register(DailySavingPlan,saveDailyDistribute)
+
+
+class DayToDaySaving(admin.ModelAdmin):
+        list_display=(id,'school_username','school_items')
+admin.site.register(DailySaving,DayToDaySaving)
+
+class Reporting(admin.ModelAdmin):
+        list_display=(id,'school_username','curr_date')
+admin.site.register(Report,Reporting)

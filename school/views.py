@@ -1,12 +1,13 @@
 import datetime
 from django.shortcuts import render, redirect,get_object_or_404
 # Create your views here.
-from .models import DailySavingPlan, DailyTrack, SchoolBudget, SchoolForm
+from .models import DailySavingPlan, DailyTrack, Report, SchoolBudget, SchoolForm, DailySaving
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
 from django.http import JsonResponse
 from django.db.models import Sum
+from frontend.models import School
 
 @login_required(login_url="/login/")
 def school_form(request):
@@ -95,8 +96,11 @@ def school_details(request, username):
     return render(request, 'school/school_details.html', {'school': school})
 
 def school_dashboard(request):
-    print('lol')
-    return render(request,'school/index.html')
+     if School.objects.filter(user=request.user).exists():
+        return render(request,'school/index.html')
+
+     return redirect("/admin-dashboard")
+    
 
 
 
@@ -165,9 +169,78 @@ def daily_track(request):
     # Save the changes
         school_budget.save()
         daily_track.save()
+
+
+        #saving how much money has to be spent in that day (without saving)
+        def expected_spending_data(request):
+            budget = SchoolBudget.objects.filter(school_username=request.user.username).first()
+            daily_saving_plan = DailySavingPlan.objects.filter(school_username=request.user.username).first()
+            
+            days_passed = (timezone.now().date() - budget.curr_date).days
+            if days_passed==365:
+                days_passed=1
+            else:
+                days_passed=365-days_passed    
+            school_items = int(budget.school_items / days_passed)
+            food = int(budget.food / days_passed)
+            health = int(budget.health / days_passed)
+            transportation = int(budget.transportation / days_passed)
+            clothes = int(budget.clothes / days_passed)
+            bills = int(budget.bills / days_passed)
+            sports = int(budget.sports / days_passed)
+            extra_curricular = int(budget.extra_curricular / days_passed)
+            data={
+                'school_username': budget.school_username,
+                'school_items': school_items,
+                'food': food,
+                'health': health,
+                'transportation': transportation,
+                'clothes': clothes,
+                'bills': bills,
+                'sports': sports,
+                'extra_curricular': extra_curricular,
+                'distributed': budget.distributed,
+                'curr_date': budget.curr_date
+            }
+            return data
+
+        expected_data = expected_spending_data(request)
+        saved_data = {
+    'school_username': expected_data['school_username'],
+    'school_items': int(expected_data['school_items']) - int(school_items),
+    'food': int(expected_data['food']) - int(food),
+    'health': int(expected_data['health']) - int(health),
+    'transportation': int(expected_data['transportation']) - int(transportation),
+    'clothes': int(expected_data['clothes']) - int(clothes),
+    'bills': int(expected_data['bills']) - int(bills),
+    'sports': int(expected_data['sports']) - int(sports),
+    'extra_curricular': int(expected_data['extra_curricular']) - int(extra_curricular),
+    'distributed': expected_data['distributed'],
+    'curr_date': expected_data['curr_date']
+}
+
+
+        daily_saving = DailySaving.objects.create(
+        school_username=saved_data['school_username'],
+        school_items=saved_data['school_items'],
+        food=saved_data['food'],
+        health=saved_data['health'],
+        transportation=saved_data['transportation'],
+        clothes=saved_data['clothes'],
+        bills=saved_data['bills'],
+        sports=saved_data['sports'],
+        extra_curricular=saved_data['extra_curricular']
+    )
+        daily_saving.save()
+
         message='Daily Data Saved Successfully'
-        return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message})
+        return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':message})
     
+
+
+
+
+
     school_data = SchoolForm.objects.get(username=request.user.username)
     return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':''})
 
@@ -325,6 +398,53 @@ def get_school_expenses(request):
     # Render the expenses data as a JSON response
     return JsonResponse(expenses_dict)
 
+def get_school_saving_expenses(request):
+    # Get the DailySavingPlan object(s) for the given school_username
+    plans = DailySaving.objects.filter(school_username=request.user.username)
+    
+    # Calculate the averages for each field
+    fields = ['school_items', 'food', 'health', 'transportation', 'clothes', 'bills', 'sports', 'extra_curricular']
+    averages = {field: sum(getattr(plan, field) for plan in plans) / len(plans) for field in fields}
+    
+    # Create a dictionary with the desired keys and values
+    expenses_dict = {
+        "food": int(averages['food']),
+        "school_items": int(averages['school_items']),
+        "health": int(averages['health']),
+        "transportation": int(averages['transportation']),
+        "clothes": int(averages['clothes']),
+        "bills": int(averages['bills']),
+        "sports": int(averages['sports']),
+        "extra_curricular": int(averages['extra_curricular']),
+    }
+    
+    # Return the dictionary as a JSON response
+    return JsonResponse(expenses_dict)
+
+
+def expected_saving_api(request):
+    # Get the DailySavingPlan object for the given school_username
+    plan = get_object_or_404(DailySavingPlan, school_username=request.user.username)
+    
+    # Calculate the averages for each field
+    fields = ['school_items', 'food', 'health', 'transportation', 'clothes', 'bills', 'sports', 'extra_curricular']
+    averages = {field: getattr(plan, field) / 1 for field in fields}
+    # averages = {field: getattr(plan, field) / len(fields) for field in fields}
+    data=[]
+    # Create a dictionary with the desired keys and values
+    expenses_dict = {
+        "food": int(averages['food']),
+        "school_items": int(averages['school_items']),
+        "health": int(averages['health']),
+        "transportation": int(averages['transportation']),
+        "clothes": int(averages['clothes']),
+        "bills": int(averages['bills']),
+        "sports": int(averages['sports']),
+        "extra_curricular": int(averages['extra_curricular']),
+    }
+    data.append(expenses_dict)
+    # Return the dictionary as a JSON response
+    return JsonResponse(data,safe=False)
 
 
 from django.utils import timezone
@@ -372,6 +492,57 @@ def expected_spending_api(request):
         'distributed': budget.distributed,
         'curr_date': budget.curr_date
     })
+    
     return JsonResponse(data, safe=False)
+
+
+def savings(request):
+    return render(request, 'school/saving.html')
+
+def reports(request):
+    if request.method == 'POST':
+        print("hello")
+        school_username = request.user.username
+        message = request.POST.get('message')
+        message = message.replace('\n', '<br>')
+        type_of_letter = request.POST.get('type_of_letter')
+        report = Report(school_username=school_username, message=message, type_of_letter=type_of_letter)
+        report.save()
+        return render(request, 'school/reports.html',{"message":'Report Sent!'})
+    return render(request, 'school/reports.html',{'message':''})
+
+def automate(request):
+    
+    return render(request,'school/automate.html')
+
+
+def dummy_letter(request):
+    letter = (
+        "Dear John,\n\n"
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+        "Nulla efficitur volutpat ultrices. Maecenas ut felis at nisi sodales rutrum. "
+        "Morbi imperdiet nulla eu lectus maximus, eget tincidunt dolor pharetra. "
+        "In hac habitasse platea dictumst. Donec rutrum urna libero, ac euismod neque mollis a. "
+        "Donec et mauris lobortis, sodales augue id, sagittis enim. "
+        "Duis faucibus risus eu odio dictum, vel consequat dolor fermentum. "
+        "Sed vestibulum scelerisque tortor, a vehicula lectus. Sed quis hendrerit arcu.\n\n"
+        "Sincerely,\nJane Smith"
+    )
+    return JsonResponse({'letter': letter})
+
+def dummy_letter2(request):
+    letter = (
+        "Dear Dilip,\n\n"
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+        "Nulla efficitur volutpat ultrices. Maecenas ut felis at nisi sodales rutrum. "
+        "Morbi imperdiet nulla eu lectus maximus, eget tincidunt dolor pharetra. "
+        "In hac habitasse platea dictumst. Donec rutrum urna libero, ac euismod neque mollis a. "
+        "Donec et mauris lobortis, sodales augue id, sagittis enim. "
+        "Duis faucibus risus eu odio dictum, vel consequat dolor fermentum. "
+        "Sed vestibulum scelerisque tortor, a vehicula lectus. Sed quis hendrerit arcu.\n\n"
+        "Sincerely,\nJane Smith"
+    )
+    return JsonResponse({'letter': letter})
+
 
 

@@ -8,6 +8,7 @@ import uuid
 from django.http import JsonResponse
 from django.db.models import Sum
 from frontend.models import School
+import random
 
 @login_required(login_url="/login/")
 def school_form(request):
@@ -96,10 +97,11 @@ def school_details(request, username):
     return render(request, 'school/school_details.html', {'school': school})
 
 def school_dashboard(request):
-     if School.objects.filter(user=request.user).exists():
-        return render(request,'school/index.html')
-
-     return redirect("/admin-dashboard")
+     try:
+        if School.objects.filter(user=request.user).exists():
+            return render(request,'school/index.html')
+     except:
+        return redirect("/login")
     
 
 
@@ -517,32 +519,193 @@ def automate(request):
 
 
 def dummy_letter(request):
-    letter = (
-        "Dear John,\n\n"
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        "Nulla efficitur volutpat ultrices. Maecenas ut felis at nisi sodales rutrum. "
-        "Morbi imperdiet nulla eu lectus maximus, eget tincidunt dolor pharetra. "
-        "In hac habitasse platea dictumst. Donec rutrum urna libero, ac euismod neque mollis a. "
-        "Donec et mauris lobortis, sodales augue id, sagittis enim. "
-        "Duis faucibus risus eu odio dictum, vel consequat dolor fermentum. "
-        "Sed vestibulum scelerisque tortor, a vehicula lectus. Sed quis hendrerit arcu.\n\n"
-        "Sincerely,\nJane Smith"
-    )
+
+    letterss=['''Dear Ministry of Education of Nepal,
+
+I hope this letter finds you well. As a representative of [School Name], I would like to bring to your attention the need for a change in the distribution of expenses for our school's budget.
+
+Currently, the expenses are distributed among various categories, including food, health, school items, transportation, bills, clothes, sports, and extra-curricular activities. However, we have noticed that the current distribution is not serving our students' needs adequately.
+
+We kindly request that the budget for each category be distributed as follows:
+
+Food: 30%
+Health: 10%
+School Items: 10%
+Transportation: 10%
+Bills: 10%
+Clothes: 10%
+Sports: 10%
+Extra-curricular: 10%
+We believe that this revised distribution will enable us to better cater to our students' needs, ultimately leading to a more conducive learning environment. Additionally, we assure you that we will be diligent in managing these funds to ensure that they are allocated appropriately.
+
+Thank you for considering our request. We appreciate your continued support in our efforts to provide quality education to our students.
+
+Sincerely,
+
+[Your Name]
+[School Name]''','''Dear [Recipient],
+
+I am writing to you today to request a change in the distribution of expenses for our school's budget. As you may know, [School Name] is one of the leading educational institutions in our region, and we are committed to providing the best possible education to our students.
+
+Currently, the expenses in our budget are divided into several categories, including food, health, school items, transportation, bills, clothes, sports, and extra-curricular activities. While we appreciate the support provided by the Ministry of Education of Nepal, we have noticed that the current distribution of funds is not meeting the needs of our students.
+
+Therefore, we would like to request that the budget for each category be distributed as follows:
+
+Food: 35%
+Health: 15%
+School Items: 10%
+Transportation: 10%
+Bills: 10%
+Clothes: 5%
+Sports: 10%
+Extra-curricular: 5%
+We believe that this revised distribution will allow us to better serve our students and provide them with a more holistic education. We are committed to using these funds responsibly and ensuring that they are allocated appropriately.
+
+Thank you for considering our request. We appreciate your support and partnership as we strive to provide the best possible education to our students.
+
+Sincerely,
+
+[Your Name]
+[School Name]''','''Dear [Recipient],
+
+I am writing to you on behalf of [School Name] to express our gratitude for the support that the Ministry of Education of Nepal has provided us in the past. We are grateful for the opportunity to provide quality education to our students, and we would like to propose some changes in the distribution of the budget for the upcoming academic year.
+
+Currently, our budget is divided into several categories, including food, health, school items, transportation, bills, clothes, sports, and extra-curricular activities. We have identified some areas that need more attention, and we would like to request a revised budget allocation.
+
+Our proposed revised allocation is as follows:
+
+Food: 35%
+Health: 15%
+School Items: 10%
+Transportation: 10%
+Bills: 5%
+Clothes: 5%
+Sports: 15%
+Extra-curricular: 15%
+We believe that this revised allocation will help us to provide better facilities and programs to our students. With this allocation, we can increase the quality and quantity of food provided to our students, enhance health services in school, improve transportation, and support more extra-curricular activities.
+
+We assure you that we will use the funds responsibly and ensure that they are allocated appropriately. We are committed to providing the best possible education to our students, and we believe that this revised budget allocation will help us achieve our goals.
+
+Thank you for considering our proposal. We appreciate your continued support and partnership in our efforts to provide the best possible education to our students.
+
+Sincerely,
+
+[Your Name]
+[School Name]''']
+
+
+
+
+
+    letter = random.choice(letterss)
     return JsonResponse({'letter': letter})
 
 def dummy_letter2(request):
-    letter = (
-        "Dear Dilip,\n\n"
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        "Nulla efficitur volutpat ultrices. Maecenas ut felis at nisi sodales rutrum. "
-        "Morbi imperdiet nulla eu lectus maximus, eget tincidunt dolor pharetra. "
-        "In hac habitasse platea dictumst. Donec rutrum urna libero, ac euismod neque mollis a. "
-        "Donec et mauris lobortis, sodales augue id, sagittis enim. "
-        "Duis faucibus risus eu odio dictum, vel consequat dolor fermentum. "
-        "Sed vestibulum scelerisque tortor, a vehicula lectus. Sed quis hendrerit arcu.\n\n"
-        "Sincerely,\nJane Smith"
-    )
+    letters=['''Dear [Recipient],
+
+I hope this letter finds you well. On behalf of [School Name], I am pleased to provide you with a report on the budget allocation for the past academic year.
+
+We are grateful for the support that the Ministry of Education of Nepal has provided us in the past year. With your assistance, we were able to provide quality education and facilities to our students. We take great pride in informing you that we have been able to allocate the funds efficiently, and as a result, have made significant savings in each category.
+
+Here is a breakdown of the savings made in each category:
+
+Food: Rs. [Food Savings]
+Health: Rs. [Health Savings]
+School Items: Rs. [School Items Savings]
+Transportation: Rs. [Transportation Savings]
+Bills: Rs. [Bills Savings]
+Clothes: Rs. [Clothes Savings]
+Sports: Rs. [Sports Savings]
+Extra-curricular: Rs. [Extra-curricular Savings]
+We are pleased to inform you that we have been able to make savings of Rs. [Total Savings] in the past academic year. These savings will help us allocate the funds more efficiently and provide better facilities to our students in the upcoming academic year.
+
+We would like to thank you once again for your support and look forward to continuing our partnership with the Ministry of Education of Nepal in providing quality education to our students.
+
+Sincerely,
+
+[Your Name]
+[School Name]''','''Dear [Recipient],
+
+I hope this letter finds you well. As the representative of [School Name], I am writing to provide you with a report on the school's budget allocation for the past academic year.
+
+Firstly, I would like to thank the Ministry of Education of Nepal for their support in helping us provide quality education and facilities to our students. We have managed to allocate the funds efficiently and have made significant progress in our goal of providing the best possible education to our students.
+
+Below is a breakdown of the spending and savings made in each category:
+
+Food:
+Total spending: Rs. [Food Spending]
+Savings: Rs. [Food Savings]
+Health:
+Total spending: Rs. [Health Spending]
+Savings: Rs. [Health Savings]
+School Items:
+Total spending: Rs. [School Items Spending]
+Savings: Rs. [School Items Savings]
+Transportation:
+Total spending: Rs. [Transportation Spending]
+Savings: Rs. [Transportation Savings]
+Bills:
+Total spending: Rs. [Bills Spending]
+Savings: Rs. [Bills Savings]
+Clothes:
+Total spending: Rs. [Clothes Spending]
+Savings: Rs. [Clothes Savings]
+Sports:
+Total spending: Rs. [Sports Spending]
+Savings: Rs. [Sports Savings]
+Extra-curricular:
+Total spending: Rs. [Extra-curricular Spending]
+Savings: Rs. [Extra-curricular Savings]
+As you can see, we have managed to save Rs. [Total Savings] across all categories. These savings will allow us to allocate the funds more efficiently and provide better facilities to our students in the upcoming academic year.
+
+We take great pride in our commitment to transparency and accountability, and we hope that this report provides you with an accurate and detailed overview of our budget allocation and spending. Thank you for your continued support, and we look forward to working with you to ensure that every student receives the best possible education.
+
+Sincerely,
+
+[Your Name]
+[School Name]''','''Dear [Recipient],
+
+I hope this letter finds you well. As the representative of [School Name], I am writing to provide you with an update on the school's budget allocation for the past academic year.
+
+With the support of the Ministry of Education of Nepal, we have managed to allocate the funds efficiently and have made significant progress in our goal of providing the best possible education to our students. Below is a breakdown of what has been accomplished in each category:
+
+Food:
+We have ensured that all students receive nutritious meals during the school day, and we have also initiated a food waste reduction program to minimize food wastage.
+Health:
+We have invested in the health and wellbeing of our students by providing regular health checkups, health education programs, and first aid training for our staff.
+School Items:
+We have provided all necessary school items to our students, including books, stationery, and other educational resources. We have also upgraded our library and computer lab facilities to enhance our students' learning experience.
+Transportation:
+We have improved our transportation services by upgrading our school buses and hiring trained drivers to ensure the safety and comfort of our students during their daily commute.
+Bills:
+We have managed to reduce our bills by investing in energy-efficient appliances and implementing measures to conserve water and electricity.
+Clothes:
+We have provided uniforms to all students, and we have also launched a clothes donation drive to ensure that all students have access to clean and comfortable clothing.
+Sports:
+We have encouraged our students to participate in sports activities by organizing regular sports events and investing in sports equipment and facilities.
+Extra-curricular:
+We have provided our students with a wide range of extracurricular activities, including music, dance, and drama programs. We have also organized field trips and other outdoor activities to promote learning and personal growth.
+We take great pride in our commitment to transparency and accountability, and we hope that this report provides you with an accurate and detailed overview of what we have accomplished with the allocated funds. Thank you for your continued support, and we look forward to working with you to ensure that every student receives the best possible education.
+
+Sincerely,
+
+[Your Name]
+[School Name]''']
+    letter = random.choice(letters)
     return JsonResponse({'letter': letter})
 
 
 
+
+
+
+# i want you to write letter like this format: "Dear John,\n\n"
+#         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+#         "Nulla efficitur volutpat ultrices. Maecenas ut felis at nisi sodales rutrum. "
+#         "Morbi imperdiet nulla eu lectus maximus, eget tincidunt dolor pharetra. "
+#         "In hac habitasse platea dictumst. Donec rutrum urna libero, ac euismod neque mollis a. "
+#         "Donec et mauris lobortis, sodales augue id, sagittis enim. "
+#         "Duis faucibus risus eu odio dictum, vel consequat dolor fermentum. "
+#         "Sed vestibulum scelerisque tortor, a vehicula lectus. Sed quis hendrerit arcu.\n\n"
+#         "Sincerely,\nJane Smith"
+#     The letter should be about requesting for change in distribution of the expenses on food, health, school items, transportation, bills, clothes, sports, extra-curricular. letter is going to be written by school and going to be received by ministry of education of nepal. I am making school expense management system in which ministry of education of nepal is going to distribute budget to the schools. for each school it will divide  the budget into the above mentioned categories such as food, health in percentage. please write one letter template same as i give you. it should include those "\n" new line characters same way i have given you

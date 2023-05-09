@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 
-from school.models import SchoolForm
+from school.models import DailySaving, SchoolForm
 from . import forms
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse,JsonResponse
@@ -180,6 +180,12 @@ def posts_json(request):
         data.append(post_dict)
     # Serialize the data list to JSON and return it
     return JsonResponse(data, safe=False)
+
+
+def leaderboard(request):
+    return render(request, 'frontend/home/leaderboard.html')
+
+
 
 
 

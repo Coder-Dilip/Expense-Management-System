@@ -869,3 +869,20 @@ def api_message(request):
     return JsonResponse(dat)
 
 
+from django.db.models import Sum
+
+def top_three_schools(request):
+    schools = DailySaving.objects.values('school_username').annotate(total_savings=Sum('school_items') + Sum('food') + Sum('health') + Sum('transportation') + Sum('clothes') + Sum('bills') + Sum('sports') + Sum('extra_curricular')).order_by('-total_savings')[:5]
+
+    school_data = []
+    for school in schools:
+        school_details = SchoolForm.objects.get(username=school['school_username'])
+        school_data.append({
+            'school_username': school['school_username'],
+            'total_savings': school['total_savings'],
+            'image_url': school_details.image_file.url,
+            'schoolname': school_details.schoolname,
+            'address': school_details.address,
+        })
+
+    return JsonResponse(school_data, safe=False)

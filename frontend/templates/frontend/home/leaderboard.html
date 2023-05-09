@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+{% include 'frontend/includes/nav.html' %}
+<body style="display: flex; align-items: center; flex-direction: column; justify-content: center;">
+    
+    <img style="margin: auto; display: block;width:90%;height:auto;" src="{% static 'frontend/images/download.png' %}" alt="">
+<h2 style="font-family: sans-serif;text-align: left;margin-top: -60px;margin-left: 5%;">Top Schools with Highest Savings</h2>
+<br><br><br>
+    <div style="max-width: 100vw; margin-left: 5%;">
+      <div id="school-cards" class="row"></div>
+    </div>
+
+
+    <script>
+        // Fetch school data from the API
+        fetch('/top-three/')
+          .then(response => response.json())
+          .then(schools => {
+            // Generate a card for each school
+            const cardHTML = schools.map((school,index) => `
+              <div class="" style="width:700px">
+                <div class="card" style="">
+                  <div class="card-body"  style="height:130px;width:700px">
+                    <div class="d-flex" style="position:relative;top:15px" >
+                      <img src="${school.image_url}" class="rounded-circle mr-3" alt="${school.schoolname}" width="60" height="60">
+                      <div>
+                        <h5 class="card-title">${school.schoolname}</h5>
+                        <div style="display:flex;align-items:center">
+                            <img src="https://static.vecteezy.com/system/resources/previews/009/385/892/original/pin-location-icon-sign-free-png.png" style="width:10px;height:auto;margin-right:10px" />
+                        <p class="card-text">${school.address}</p>
+</div>
+                      </div>
+                      <div class="ml-auto">
+                        <p class="card-text text-success">Rs ${school.total_savings}</p>
+                        <br>
+                        <div style="display:flex;align-items:center">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5987/5987898.png" style="height:30px;width:30px">
+                        <p style="margin-left:10px">${index+1}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br><br>
+              </div>
+            `).join('');
+      
+            // Add the card HTML to the container
+            const container = document.querySelector('#school-cards');
+            container.innerHTML = cardHTML;
+          })
+          .catch(error => console.error(error));
+      </script>
+    </body>
+</html>

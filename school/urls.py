@@ -27,7 +27,8 @@ urlpatterns = [
     path('ai-generate/',views.openAiLetter),
     path('school-dashboard/analytics',views.analytics),
     path('api/analytics/',views.analytics_spending),
-    path('api_message/',views.api_message)
+    path('api_message/',views.api_message),
+    path('top-three/',views.top_three_schools)
 ]
 
 if settings.DEBUG:

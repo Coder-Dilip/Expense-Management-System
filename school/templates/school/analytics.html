@@ -46,7 +46,69 @@
     <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
 
     <link rel="stylesheet" href="{% static 'assets/vendor/libs/apex-charts/apex-charts.css' %}" />
+<style>
+  body { 
+    margin-top:20px;
+   background: #E9E9E9;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
 
+.wrapper {
+  margin: 30px;
+  padding: 30px;
+  background: #fff;
+  width: 360px;
+  height: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper-cell {
+   display: flex;
+   margin-bottom: 30px;
+}
+
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+
+.animated-background {
+    animation-duration: 1.25s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #F6F6F6;
+    background: linear-gradient(to right, #F6F6F6 8%, #F0F0F0 18%, #F6F6F6 33%);
+    background-size: 800px 104px;
+    height: 96px;
+    position: relative;
+}
+
+
+.image {
+  height: 60px;
+  width: 60px;
+  @extend .animated-background;
+}
+
+.text {
+  margin-left: 20px
+}
+
+.text-line {
+  height: 10px;
+  width: 230px;
+  margin: 4px 0;
+}
+</style>
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -126,13 +188,13 @@
                   <div data-i18n="Layouts">Reports</div>
                 </a>
               </li>
-              <li class="menu-item active">
+              <li class="menu-item">
                 <a href="/school-dashboard/automate" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-save"></i>
                   <div data-i18n="Layouts">Automate</div>
                 </a>
               </li>
-              <li class="menu-item">
+              <li class="menu-item active">
                 <a href="/school-dashboard/analytics" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-save"></i>
                   <div data-i18n="Layouts">Analytics & Guides</div>
@@ -160,30 +222,86 @@
             <!-- Content -->
  <img src="https://unblast.com/wp-content/uploads/2022/04/Sales-and-Marketing-Illustration.jpg" style="width: 100%;height:350px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
 
-        <br><br><br>
+        <br>
         <div id="expenses-container">
           <div class="container">
-            <h2>Add/Update Automation</h2>
-            <p>Right now only food can be automated as food expenses on a particular day depends upon the attendance of the students</p>
+            <h2>Expected Spendings</h2>
+            <p>This is our Integrated AI generated Predictions based on your previous spendings</p>
             <br>
-            <div class="form-group">
-              <label for="school_username">School Username:</label>
-              <input style="max-width: 500px;" type="text" disabled class="form-control" value="{{request.user.username}}" id="school_username" name="school_username" placeholder="Enter school username">
-              <br>
-            </div>
-            <div class="form-group">
-              <label for="sheet_url">Attendance Sheet URL:</label>
-              <input style="max-width: 500px;" type="text" class="form-control" id="sheet_url" name="sheet_url" placeholder="Enter sheet URL">
-              <br>
-            </div>
-            <button id="automate-form" class="btn btn-primary">Submit</button>
-             
-          
+            
           </div>
         </div>
-        <br><br>
-    <br><br><br><br>
+        <br>
 
+
+    <div id="lineChart"></div>
+    <br>
+    <h5 id="warn_message"></h5>
+
+
+<br><br><br><br>
+    <h2 style="color:rgb(71, 84, 255)">Guides and Help</h2><br>
+    <img src="https://img.freepik.com/premium-vector/modern-3d-illustration-young-man-stock-market_145666-1878.jpg?w=826" style="border-radius: 10px;" alt=""><br><br>
+    <div class="container" id="loading">
+      <div class="wrapper">
+        <div class="wrapper-cell">
+          <div class="image animated-background "></div>
+          <div class="text">
+            <div class="text-line animated-background "> </div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+          </div>
+        </div>
+        <div class="wrapper-cell">
+          <div class="image animated-background "></div>
+          <div class="text">
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background ">   </div>
+          </div>
+        </div>
+        <div class="wrapper-cell">
+          <div class="image animated-background "></div>
+          <div class="text">
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+          </div>
+        </div>
+        <div class="wrapper-cell">
+          <div class="image animated-background "></div>
+          <div class="text">
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+          </div>
+        </div>
+        <div class="wrapper-cell">
+          <div class="image animated-background "></div>
+          <div class="text">
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+          </div>
+        </div>
+        <div class="wrapper-cell">
+          <div class="image animated-background "></div>
+          <div class="text">
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+            <div class="text-line animated-background "></div>
+          </div>
+        </div>
+          <p class="text-center">Guide is being generated...</p>
+      </div>
+  </div>
+    <pre id="api-message" class="lead" style="color: #333333; font-size: 1.5rem; text-align: left; padding: 1rem; background-color: #eff3ff; border-radius: 10px;white-space: pre-wrap;"></pre>
 
          
           </div>
@@ -198,6 +316,9 @@
     
 
   </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Core JS -->
@@ -215,6 +336,7 @@
     
     
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <!-- Vendors JS -->
     <script src="/static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
@@ -227,32 +349,86 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script>
-      document.getElementById("automate-form").addEventListener("click", function(event) {
-        event.preventDefault(); // prevent the default form submission
+      fetch('/api/analytics/')
+  .then(response => response.json())
+  .then(data1 => {
+    if(JSON.parse(data1.data).length>=10){
+   let data=JSON.parse(data1.data).slice(-10)
+   console.log(data)
+const dates = [];
+
+
+for (let i = 0; i < data.length; i++) {
+  const date = new Date();
+  date.setDate(date.getDate() + i - 2);
+  const formattedDate = date.toLocaleString('default', { month: 'long', day: 'numeric' });
+  dates.push(formattedDate);
+}
+
+console.log(dates);
+// create a new chart object
+
+if (data[data.length-1]>(data[0])/1.2){
+    document.getElementById('warn_message').textContent="Be cautious You may keep increasing your Spending in Next 7 Days"
+    document.getElementById('warn_message').style.backgroundColor="orangered"
+    document.getElementById('warn_message').style.color="white"
+    document.getElementById('warn_message').style.padding="20px"
+    document.getElementById('warn_message').style.borderRadius="8px"
+
+  }else{
+    document.getElementById('warn_message').textContent="Keep it up! You seem to be Saving more than your plan in Next 7 Days"
+    document.getElementById('warn_message').style.backgroundColor="Green"
+    document.getElementById('warn_message').style.color="white"
+    document.getElementById('warn_message').style.padding="20px"
+    document.getElementById('warn_message').style.borderRadius="8px"
+
+
+  }
+const noisyData = data.map(value => value + Math.random() * 20 - 10);
+
+// Define the chart options
+const options = {
+  series: [{
+    name: 'Expenses in RS ',
+    data: noisyData.map(el=>Math.floor(el)),
     
-        // get the values of the input fields
-        var school_username = document.getElementById("school_username").value;
-        var sheet_url = document.getElementById("sheet_url").value;
-        if(!school_username || !sheet_url){
-          alert("please enter sheet link")
-          return;
-        }
+  }],
+  chart: {
+    type: 'line',
+    height: 350,
+    zoom: {
+      enabled: false,
+    },
+    colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560']
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+    width: 2,
+  },
+  xaxis: {
+    type:'date',
+    categories: dates,
     
-        // make the AJAX request
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/automate/");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function() {
-          if (xhr.status === 200) {
-            // handle the successful response from the server
-            alert("We will scan the sheet and recommend you the expenses on food");
-          } else {
-            // handle the error response from the server
-            alert("Error: " + xhr.responseText);
-          }
-        };
-        xhr.send(JSON.stringify({ school_username: school_username, sheet_url: sheet_url }));
-      });
+  },
+};
+const chart = new ApexCharts(document.querySelector("#lineChart"), options);
+    chart.render();
+    }
+
+  })
+  .catch(error => console.error(error)); 
+    </script>
+    <script>
+    document.getElementById("loading").style.display='block'
+       fetch('/api_message/')
+  .then(response => response.json())
+  .then(data1 => {
+   document.getElementById('api-message').textContent=data1.reply
+   document.getElementById('loading').style.display = 'none';
+  })
     </script>
   </body>
 </html>

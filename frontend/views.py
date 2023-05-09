@@ -32,12 +32,15 @@ def login_view(request):
                 login(request, user)
                 if School.objects.filter(user=user).exists():
                    school_form = School.objects.get(user=user)
-                   form_details=SchoolForm.objects.get(username=school_form.user.username)
-                   status = school_form.status
-                   if status=='new':
-                       return redirect('/school-form')
-                   else:
-                        return redirect(f'/school-dashboard?key={school_form.user.username+"-"+str(form_details.image_file)}') # Redirect to home page
+                   try:
+                    form_details=SchoolForm.objects.get(username=school_form.user.username)
+                    status = school_form.status
+                    if status=='new':
+                        return redirect('/school-form')
+                    else:
+                            return redirect(f'/school-dashboard?key={school_form.user.username+"-"+str(form_details.image_file)}') # Redirect to home page
+                   except:
+                    return redirect('/school-form')
                 else:
                     return redirect("/admin-dashboard")
                 
@@ -79,35 +82,11 @@ def register_user(request):
 
     return render(request, "frontend/home/register.html", {"form": form, "msg": msg, "success": success})
 
-
+from decouple import config
 def contact(request):
-    import openai
-    import os
-
-    # Set up OpenAI API credentials
-    openai.api_key ="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"
-
-    # Set up the GPT-3 model
-    model_engine = "text-davinci-003"
-    prompt = "write a letter to the ministry of education about the current education scenario"
-    temperature = 0.5
-    max_tokens = 4048  # Increase this value to generate longer text
-    # Generate text
-    response = openai.Completion.create(
-        engine=model_engine,
-        prompt=prompt,
-        temperature=temperature,
-        max_tokens=max_tokens
-    )
-
-    # Display the generated text
-    reply=response.choices[0].text
+    reply="hello"
     
     # reply=reply.replace("\n", "<br>")
-      
-    
-    
-   
     
     # Return the JSON response
     # return HttpResponse(response.choices[0].text)

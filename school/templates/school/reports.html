@@ -132,6 +132,12 @@
                   <div data-i18n="Layouts">Automate</div>
                 </a>
               </li>
+              <li class="menu-item">
+                <a href="/school-dashboard/analytics" class="menu-link">
+                  <i class="menu-icon tf-icons bx bx-save"></i>
+                  <div data-i18n="Layouts">Analytics & Guides</div>
+                </a>
+              </li>
                 </ul>
               </li>
   
@@ -153,7 +159,7 @@
           <div class="content-wrapper" style="padding:30px">
             <!-- Content -->
  <img src="https://unblast.com/wp-content/uploads/2022/04/Sales-and-Marketing-Illustration.jpg" style="width: 100%;height:350px;object-fit:cover;border-radius: 5px;" alt=""><br><br><br>
- <h2>Average Daily Reports</h2>
+ <h2>Reports & Request</h2>
  <form method="POST">
   {% csrf_token %}
 <p style="color:green;font-size: 1.6rem;">{{message}}</p>
@@ -167,6 +173,11 @@
   <p>Let our integrated AI help you to generate Report. Click on the button below to generate the sample</p>
   <button id="budget-request-btn" class="btn btn-primary" style="background-color: orange !important;border:none">Budget Change Request</button>
   <button class="btn btn-success" id="budget-send-btn" style="margin-left: 20px;">Budget Report</button><br><br><br>
+  <h4>Want to create custom letter?</h4>
+  <div style="display: flex;">
+  <textarea type="text" placeholder="write a letter to ministry of Education....." id="openai" class="form-control" style="max-width: 600px;height: 50px;"></textarea>
+  <button type="button" id="generate" class="btn btn-success" style="background-color: black;margin-left: 20px;width:100px;border:none">Generate</button>
+  </div><br>
   <button type="submit" class="btn btn-primary">Submit Report</button>
 </form>
 
@@ -232,6 +243,45 @@ console.log(newText)
         .catch(error => console.error(error));
     });
   </script>
+
+
+
+<script>
+  const generate=document.querySelector("#generate")
+  const messageTextArea3 = document.querySelector('#message');
+  generate.addEventListener('click',((e)=>{
+e.preventDefault()
+
+ // Create a new XMLHttpRequest object
+ const xhr = new XMLHttpRequest();
+let message=document.getElementById('openai').value
+// Set the URL and query parameters
+const url = `/ai-generate/?message=${encodeURIComponent(message)}`;
+
+// Open the GET request
+xhr.open('GET', url);
+
+// Set the response type to JSON (optional)
+xhr.responseType = 'json';
+
+// Set the callback function for when the request completes
+xhr.onload = () => {
+    if (xhr.status === 200) {
+        // Request was successful, do something with the response
+        console.log(xhr.response.reply);
+        messageTextArea3.value=xhr.response.reply
+        document.getElementById("message_type").value="report"
+
+    } else {
+        // Request failed, handle the error
+        console.error(xhr.statusText);
+    }
+};
+
+// Send the request
+xhr.send();
+  }))
+</script>
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import DailySavingPlan, MonthlySavingPlan, SchoolForm,DailyTrack,SchoolBudget, DailySaving, Report
+from .models import Automate, DailySavingPlan, MonthlySavingPlan, SchoolForm,DailyTrack,SchoolBudget, DailySaving, Report
 
 class SchoolAdmin(admin.ModelAdmin):
     list_display = ('id','username','email','name','contact_email')
@@ -30,6 +30,12 @@ class DayToDaySaving(admin.ModelAdmin):
         list_display=(id,'school_username','school_items')
 admin.site.register(DailySaving,DayToDaySaving)
 
+
 class Reporting(admin.ModelAdmin):
         list_display=(id,'school_username','curr_date')
 admin.site.register(Report,Reporting)
+
+
+class Automating(admin.ModelAdmin):
+     list_display=(id,'school_username','sheet_url')
+admin.site.register(Automate,Automating)

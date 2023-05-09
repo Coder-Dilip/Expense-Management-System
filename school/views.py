@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect,get_object_or_404
 # Create your views here.
-from .models import DailySavingPlan, DailyTrack, Report, SchoolBudget, SchoolForm, DailySaving
+from .models import DailySavingPlan, DailyTrack, Report, SchoolBudget, SchoolForm, DailySaving,Automate
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import uuid
@@ -40,6 +40,8 @@ def school_form(request):
         educational_background=request.POST.get('educational_background')
         years_of_experience=request.POST.get('years_of_experience')
         vision_for_school=request.POST.get('vision_for_school')
+        bank_name=request.POST.get('bank_name')
+        account_number=request.POST.get('account_number')
 
         if image_file:
             # generate unique filename using uuid and file extension
@@ -76,7 +78,9 @@ def school_form(request):
             status=0,
             educational_background=educational_background,
             years_of_experience=years_of_experience,
-            vision_for_school=vision_for_school
+            vision_for_school=vision_for_school,
+            bank_name=bank_name,
+            account_number=account_number
         )
         form_data.save()
 
@@ -100,8 +104,14 @@ def school_dashboard(request):
      try:
         if School.objects.filter(user=request.user).exists():
             return render(request,'school/index.html')
+        else:
+            return redirect('/admin-dashboard')
      except:
         return redirect("/login")
+     
+
+def analytics(request):
+    return render(request,'school/analytics.html')
     
 
 
@@ -135,6 +145,10 @@ def school_form_list(request):
 def daily_track(request):
     if not MonthlySavingPlan.objects.filter(school_username=request.user.username).exists():
         return redirect("/school-dashboard")
+    food_track=0
+    if Automate.objects.filter(school_username=request.user.username).exists():
+        sheet_obj=Automate.objects.get(school_username=request.user.username)
+        food_track=10*random.randint(170, 220)
     if request.method == 'POST':
         school_username = request.POST.get('school_username')
         school_data = SchoolForm.objects.get(username=school_username)
@@ -153,7 +167,7 @@ def daily_track(request):
         if existing_record:
         # A record already exists on this day, so you can show an error message to the user
             message = "A record already exists for this day"
-            return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message})
+            return render(request,'school/daily_track.html',{'username':school_username,'img':str(school_data.image_file),'message':message,'food_track':food_track})
 
         daily_track = DailyTrack(school_username=school_username, food=food, school_items=school_items, health=health, transportation=transportation, clothes=clothes, bills=bills, sports=sports, extra_curricular=extra_curricular, notes=notes, current_date=current_date)
         school_budget = get_object_or_404(SchoolBudget, school_username=school_username)
@@ -236,7 +250,7 @@ def daily_track(request):
         daily_saving.save()
 
         message='Daily Data Saved Successfully'
-        return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':message})
+        return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':message,'food_track':food_track})
     
 
 
@@ -244,7 +258,7 @@ def daily_track(request):
 
 
     school_data = SchoolForm.objects.get(username=request.user.username)
-    return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':''})
+    return render(request,'school/daily_track.html',{'username':request.user.username,'img':str(school_data.image_file),'message':'','food_track':food_track})
 
 
 
@@ -709,3 +723,149 @@ Sincerely,
 #         "Sed vestibulum scelerisque tortor, a vehicula lectus. Sed quis hendrerit arcu.\n\n"
 #         "Sincerely,\nJane Smith"
 #     The letter should be about requesting for change in distribution of the expenses on food, health, school items, transportation, bills, clothes, sports, extra-curricular. letter is going to be written by school and going to be received by ministry of education of nepal. I am making school expense management system in which ministry of education of nepal is going to distribute budget to the schools. for each school it will divide  the budget into the above mentioned categories such as food, health in percentage. please write one letter template same as i give you. it should include those "\n" new line characters same way i have given you
+
+
+from .models import Automate
+import json
+@csrf_exempt
+def automate_view(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        school_username = data["school_username"]
+        sheet_url = data["sheet_url"]
+
+        # check if the Automate object already exists
+        automate = Automate.objects.filter(school_username=school_username).first()
+
+        if automate:
+            # update the existing object
+            automate.sheet_url = sheet_url
+            automate.save()
+        else:
+            # create a new Automate object
+            Automate.objects.create(school_username=school_username, sheet_url=sheet_url)
+
+        return JsonResponse({"status": "success"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid HTTP method. Only POST requests are allowed."})
+
+
+
+from decouple import config
+def openAiLetter(request):
+    import openai
+
+    # Set up OpenAI API credentials
+    openai.api_key =config('openapi')
+
+    # Set up the GPT-3 model
+    model_engine = "text-davinci-003"
+    prompt = request.GET.get('message')
+    temperature = 0.5
+    max_tokens = 2000  # Increase this value to generate longer text
+    # Generate text
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+
+    # Display the generated text
+    reply=response.choices[0].text
+    dat={"reply":reply}
+    return JsonResponse(dat)
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def analytics_spending(request):
+    import pandas as pd
+    daily_tracks = DailyTrack.objects.filter(school_username=request.user.username)
+    data = [{"food": daily_track.food,
+             "school_items": daily_track.school_items,
+             "health": daily_track.health,
+             "transportation": daily_track.transportation,
+             "clothes": daily_track.clothes,
+             "bills": daily_track.bills,
+             "sports": daily_track.sports,
+             "extra_curricular": daily_track.extra_curricular,
+             "notes": daily_track.notes,
+             "current_date": daily_track.current_date,
+             "school_username":daily_track.school_username
+             } for daily_track in daily_tracks]
+    data_values = [[daily_track[key] for key in daily_track] for daily_track in data]
+    num_list = [[int(x) if isinstance(x, (float, int)) else 0 for x in sublist] for sublist in data_values]
+    print(num_list)
+    sum_averages=[]
+    for el in num_list:
+        sum_averages.append(sum(el))
+
+    lst=sum_averages
+    # find the maximum difference
+    max_diff = max(lst) - min(lst)
+
+    # predict 7 values
+    for i in range(15):
+        # get the last value of the original list
+        last_val = lst[-1]
+        
+        # check if the last value is greater than the first value
+        if last_val > lst[0]:
+            # predict an increase in value
+            predicted_val = last_val/2 + random.uniform(0, 1.5*max_diff)
+        else:
+            # predict a decrease in value
+            predicted_val = abs(last_val/2 - random.uniform(0, 1.5*max_diff))
+        
+        # append the predicted value to the original list
+        lst.append(predicted_val)
+    return JsonResponse({"data":str(lst)})
+    
+    return JsonResponse(data, safe=False)
+
+
+
+
+
+def api_message(request):
+    daily_tracks = DailyTrack.objects.filter(school_username=request.user.username)
+    data = [{"food": daily_track.food,
+             "school_items": daily_track.school_items,
+             "health": daily_track.health,
+             "transportation": daily_track.transportation,
+             "clothes": daily_track.clothes,
+             "bills": daily_track.bills,
+             "sports": daily_track.sports,
+             "extra_curricular": daily_track.extra_curricular,
+             "notes": daily_track.notes,
+             "current_date": daily_track.current_date,
+             "school_username":daily_track.school_username
+             } for daily_track in daily_tracks]
+    data_values = [[daily_track[key] for key in daily_track] for daily_track in data]
+    num_list = [[int(x) if isinstance(x, (float, int)) else 0 for x in sublist] for sublist in data_values]
+    query= '''the each element in this array is expenses on that day of a school In rupees.  The expenses is done in 8 different categories food, health, transportation, sports, extra curricular, school items, bills, uniform on each day. There are past three data and future 7 data in this array. What do you think how can we improve the savings by minimizing the spendings. The array looks like this:''' +str(num_list)+'''Please write shortly based on above data for each day corresponding to each category, Which categories are spending more and how can spending be minimized in those categories. Write as if you are a person who is guiding a school. write very very shortly  in bullet points by giving analytics and numeric data'''
+    import openai
+
+    # Set up OpenAI API credentials
+    openai.api_key =config('openapi')
+
+    # Set up the GPT-3 model
+    model_engine = "text-davinci-003"
+    prompt = query
+    temperature = 0.5
+    max_tokens = 2000  # Increase this value to generate longer text
+    # Generate text
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        temperature=temperature,
+        max_tokens=max_tokens
+    )
+
+    # Display the generated text
+    reply=response.choices[0].text
+    dat={"reply":reply}
+    return JsonResponse(dat)
+
+

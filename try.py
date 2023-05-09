@@ -12,7 +12,7 @@ def Example(grade, names, status,counts):
 
   headers = { 
   'Content-type':'application/x-www-form-urlencoded',  
-  'Authorization':"Zoho-oauthtoken 1000.e68bf40f66286e56781c09fafc6bd168.f92596177f75cf68eb1dbb9b11778fb7"
+  'Authorization':"Zoho-oauthtoken 1000.7f422fe3ef4a1c18414ddf0c1345a719.50d9876a1fd8ee7895b1b465545fa3bc"   # yo pani change garni
   }
   response = requests.post(url = url, headers = headers, data = paramMap)
   data=json.loads(response.text)
@@ -30,7 +30,7 @@ grades=["Nursery","Class-1","Class-10"]      # full ko lagi yo rakhni ["Nursery"
 names=[]
 status=[]
 counts=[0]
-for x in range(3):
+for x in range(1):
   Example(grades[x],names, status,counts)
 
 

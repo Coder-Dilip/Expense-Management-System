@@ -112,6 +112,8 @@ class SchoolForm(models.Model):
     educational_background=models.CharField(max_length=100,default="")
     years_of_experience=models.IntegerField()
     vision_for_school=models.CharField(max_length=200,default="")
+    bank_name=models.CharField(max_length=100,default='NIC Asia')
+    account_number=models.BigIntegerField(default=0)
 
     status=models.IntegerField(default=0)
 
@@ -129,3 +131,8 @@ class Report(models.Model):
         if not self.pk:
             self.curr_date = timezone.now().date()
         super(Report, self).save(*args, **kwargs)
+
+
+class Automate(models.Model):
+    school_username=models.CharField(max_length=100)
+    sheet_url=models.CharField(max_length=100)

@@ -23,8 +23,11 @@ urlpatterns = [
     path('school-dashboard/reports',views.reports),
     path('dummy-letter/', views.dummy_letter, name='dummy_letter'),
     path('dummy-letter2/', views.dummy_letter2, name='dummy_letter'),
-
-
+    path('automate/',views.automate_view),
+    path('ai-generate/',views.openAiLetter),
+    path('school-dashboard/analytics',views.analytics),
+    path('api/analytics/',views.analytics_spending),
+    path('api_message/',views.api_message)
 ]
 
 if settings.DEBUG:

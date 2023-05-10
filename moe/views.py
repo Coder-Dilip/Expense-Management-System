@@ -22,7 +22,22 @@ def logOut(request):
     
 @login_required(login_url="/login/")
 def profile(request):
-    return render(request,"moe/profile.html")
+    # Retrieve all rows from the SchoolForm model
+    schools = SchoolForm.objects.all()
+
+    # Extract the desired columns from each row
+    data = []
+    for school in schools:
+        school_data = {
+            'schoolname': school.schoolname,
+            'image_file': school.image_file,
+            'district': school.district,
+            'email': school.email,
+            'username':school.username
+        }
+        data.append(school_data)
+
+    return render(request,"moe/profile.html",{'data': data})
 
 @login_required(login_url="/login/")
 def icons(request):

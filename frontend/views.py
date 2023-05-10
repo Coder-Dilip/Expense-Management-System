@@ -187,6 +187,8 @@ def leaderboard(request):
 
 
 
+def services(request):
+    return render(request, 'frontend/home/services.html')
 
-
-
+def nepal_budget_status(request):
+    return render(request,'frontend/home/nepal_budget_status.html')

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Our Services</title>
+    <style>
+        /* Optional custom styles for the Our Services template */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .service-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card .card-body {
+            padding: 30px;
+        }
+
+        .service-card .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .service-card .card-text {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .service-card .icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        /* Color classes for the service cards */
+        .service-card.color-1 {
+            background-color: #F3D250;
+        }
+
+        .service-card.color-2 {
+            background-color: #FF6B6B;
+        }
+
+        .service-card.color-3 {
+            background-color: #3A86FF;
+        }
+
+        .service-card.color-4 {
+            background-color: #48E5C2;
+        }
+        .card{
+            height:300px
+        }
+    </style>
+</head>
+
+<body>
+  {% include 'frontend/includes/nav.html' %}
+  <br><br><br><br>
+<img src="https://img.freepik.com/premium-vector/teamwork-office-internet-technology-web-marketing-promote-global-business_143808-1003.jpg" style="display: block;margin:auto;" alt="">
+    <div class="container py-5">
+        <h2 class="text-center mb-5">Our Services</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card service-card color-1">
+                    <div class="card-body">
+                        <i class="fas fa-calculator icon"></i>
+                        <h5 class="card-title">Budget Calculator</h5>
+                        <p class="card-text">Calculate and manage your school's budget effectively using our budget calculator tool.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card service-card color-2">
+                    <div class="card-body">
+                        <i class="fas fa-money-check-alt icon"></i>
+                        <h5 class="card-title">Daily Expenses Management</h5>
+                        <p class="card-text">Track and manage your school's daily expenses in a systematic and organized manner.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card service-card color-3">
+                    <div class="card-body">
+                        <i class="fas fa-piggy-bank icon"></i>
+                        <h5 class="card-title">Saving Plans</h5>
+                        <p class="card-text">Create saving plans for your school to ensure effective utilization of resources.</p>
+                    </div>
+                </div>
+                </div>
+            <div class="col-md-6 mb-4">
+                <div class="card service-card color-3">
+                    <div class="card-body">
+                        <i class="fas fa-robot icon"></i>
+                        <h5 class="card-title">AI Generated</h5>
+                        <p class="card-text">Get AI-generated guides and insights based on previous spending patterns of schools.</p>
+                    </div>
+                </div>
+                </div>
+           

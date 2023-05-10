@@ -16,5 +16,7 @@ path('about',views.about),
 path('posts',views.posts),
 path('create-post',views.create_post),
     path('posts-json/', views.posts_json, name='posts-json'),
-    path('leaderboard/',views.leaderboard)
+    path('leaderboard/',views.leaderboard),
+    path('services/',views.services),
+    path("nepal_budget_status/",views.nepal_budget_status)
 ]

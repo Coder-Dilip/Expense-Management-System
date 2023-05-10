@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Status</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Optional custom styles for the Budget Status template */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        canvas {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+{% include 'frontend/includes/nav.html' %}
+
+<body>
+<img src="https://www.jjmicro.com/wp-content/uploads/2020/04/it.budget.2.png" alt="">
+    <div class="container">
+        <h2>Budget Status</h2>
+<br><br>
+        <!-- Budget Summary -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Budget Summary</h5>
+                <p class="card-text">Total Budget: Rs 50,0000000</p>
+                <p class="card-text">Budget Spent: RS 30,000000</p>
+                <p class="card-text">Remaining Budget: Rs 20,000000</p>
+            </div>
+        </div>
+
+        <!-- Expense Chart -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Expense Chart</h5>
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Savings Chart -->
+        <div class="card">
+            <div class="card-body">
+  {% include 'frontend/includes/nav.html' %}
+                <h5 class="card-title">Savings Chart</h5>
+                <canvas id="savingsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dummy data for expense chart
+        var expenseChartData = {
+            labels: ['Education', 'Health', 'Transportation', 'Maintenance', 'Other'],
+            datasets: [{
+                label: 'Expense',
+                data: [250000, 500000, 300000, 150000, 200000],
+                backgroundColor: ['#F3D250', '#FF6B6B', '#3A86FF', '#48E5C2', '#FFC107'],
+            }]
+        };
+
+        // Dummy data for savings chart
+        var savingsChartData = {
+            labels: ['Investments', 'Emergency Fund', 'Future Projects'],
+            datasets: [{
+                label: 'Savings',
+                data: [800000, 500000, 300000],
+                backgroundColor: ['#3A86FF', '#48E5C2', '#F3D250'],
+            }]
+        };
+
+        // Expense chart configuration
+        var expenseChartConfig = {
+            type: 'doughnut',
+            data: expenseChartData,
+        };
+
+        // Savings chart configuration
+        var savingsChartConfig = {
+            type: 'doughnut',
+            data: savingsChartData,
+        };
+
+        // Create expense chart
+        var expenseChartCanvas = document.getElementById('expenseChart').getContext('2d');
+        new Chart(expenseChartCanvas, expenseChartConfig);
+
+        // Create savings chart
+        var savingsChartCanvas = document.getElementById('savingsChart').getContext('2d');
+        new Chart(savingsChartCanvas, savingsChartConfig);
+
+
+
+        </script>
+        

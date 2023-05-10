@@ -1,0 +1,185 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+{% block content %}
+
+  <div class="header bg-primary pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <h6 class="h2 text-white d-inline-block mb-0">Schools</h6>
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="#">MOE</a></li>
+                <li class="breadcrumb-item active" aria-current="page">School</li>
+              </ol>
+            </nav>
+          </div>
+        
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+    <div class="row">
+      <div class="col">
+        <div class="card" style="padding:50px">
+            <h1>Spendings</h1>
+            <p style="color:orangered;">{{school}} Average Daily Spendings</p>
+           
+            <br><br>
+         
+           
+        
+            <div style="max-width: 1200px;max-height: 600px;">
+                <canvas width="500" height="400" id="polarArea"></canvas>
+            </div>
+            
+          <!-- Card header -->
+          <div class="card-header border-0">
+            <h3 class="mb-0"></h3>
+          </div>
+          <!-- Light table -->
+         
+            <!-- School Modal -->
+  
+          <!-- Card footer -->
+          
+        </div>
+      </div>
+    </div>
+    <!-- Dark table -->
+
+  </div>
+
+{% endblock content %}
+
+
+
+{% block javascripts %}
+   <!-- build:js assets/vendor/js/core.js -->
+   <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
+   <script src="/static/assets/vendor/libs/popper/popper.js"></script>
+   <script src="/static/assets/vendor/js/bootstrap.js"></script>
+   <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+   <script src="/static/assets/vendor/js/menu.js"></script>
+   <!-- endbuild -->
+<script>
+
+ 
+   
+   
+</script>
+   <!-- Vendors JS -->
+
+   <!-- Main JS -->
+
+   <!-- Page JS -->
+
+   <!-- Place this tag in your head or just before your close body tag. -->
+<!-- Specific JS goes HERE --> 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="/static/assets/vendor/libs/popper/popper.js"></script>
+  <script src="/static/assets/vendor/js/bootstrap.js"></script>
+  <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+  <script src="/static/assets/vendor/js/menu.js"></script>
+  <!-- endbuild -->
+<script>
+
+
+  
+  
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <!-- Vendors JS -->
+
+  <!-- Main JS -->
+
+  <!-- Page JS -->
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<script>
+
+</script>
+
+
+<script>
+     fetch('/school-dashboard/data-for-visualization?key={{school}}')
+            .then(response => response.json())
+            .then(data => {
+               
+
+
+                var barChartCtx = document.getElementById('polarArea').getContext('2d');
+var barChart = new Chart(barChartCtx, {
+    type: 'bar',
+    data: {
+        labels: ['School items', 'Health', 'Transportation', 'Clothes', 'Bills', 'Food', 'Sports', 'Extra-curricular'],
+        datasets: [{
+            label: 'Expenses',
+            data: [data.school_items, data.health, data.transportation, data.clothes, data.bills, data.food, data.sports, data.extra_curricular],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#4CAF50', '#9B4DCA'],
+            borderRadius:30
+        }]
+    },
+    options: {
+        legend: {
+            display: true,
+            position: 'right'
+        },
+        scales: {
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines: {
+                    display: false
+                }
+            }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines: {
+                    display: true
+                }
+            }]
+        },
+        plugins: {
+            datalabels: {
+                align: 'end',
+                anchor: 'end',
+                color: '#000',
+                font: {
+                    weight: 'bold'
+                },
+                formatter: function(value, context) {
+                    return '$' + value.toFixed(2); // format the value as currency with two decimal places
+                }
+            }
+        }
+    }
+});
+
+});
+</script>
+
+{% endblock javascripts %}

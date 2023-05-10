@@ -363,8 +363,13 @@ def spendings(request):
 
 
 def get_school_expenses(request):
+    key_param = request.GET.get('key')  # Retrieve the value of the 'key' parameter
+    current_user=request.user.username
+    if key_param:
+        current_user=key_param
+    else:print("lol")
     # Retrieve the DailyTrack instances for the specified school
-    daily_tracks = DailyTrack.objects.filter(school_username=request.user.username)
+    daily_tracks = DailyTrack.objects.filter(school_username=current_user)
 
     # Calculate the total expenses for each category
     total_food = sum(track.food for track in daily_tracks)
@@ -955,3 +960,7 @@ def dashboard_api(request):
         total_savings['image']=school_form.image_file.url
         return JsonResponse(total_savings, status=200)
 
+
+
+def view_school(request, schoolusername):
+    return render(request, 'school/view_school.html',{'school':schoolusername})

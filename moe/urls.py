@@ -18,6 +18,7 @@ urlpatterns = [
     path("admin-dashboard/reports",views.school_reports),
      path('reports/', views.get_reports, name='get_reports'),
      path('report_detail/<id>', views.get_reports, name='report_detail'),
+     path('budget-api/',views.budget_summary)
 ]
 
 

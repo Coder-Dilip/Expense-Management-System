@@ -886,3 +886,72 @@ def top_three_schools(request):
         })
 
     return JsonResponse(school_data, safe=False)
+
+
+
+def dashboard_api(request):
+        daily_savings = DailySaving.objects.filter(school_username=request.user.username)
+        daily_spendings=DailyTrack.objects.filter(school_username=request.user.username)
+        budget=SchoolBudget.objects.get(school_username=request.user.username)
+        school_form=SchoolForm.objects.get(username=request.user.username)
+    
+        total_spendings={
+           'school_items': 0,
+            'food': 0,
+            'health': 0,
+            'transportation': 0,
+            'clothes': 0,
+            'bills': 0,
+            'sports': 0,
+            'extra_curricular': 0 
+        }
+        budgets={
+           'school_items': budget.school_items,
+            'food': budget.food,
+            'health':  budget.health,
+            'transportation': budget.transportation,
+            'clothes': budget.clothes,
+            'bills': budget.bills,
+            'sports': budget.sports,
+            'extra_curricular': budget.extra_curricular 
+        }
+        total_savings = {
+            'school_items': 0,
+            'food': 0,
+            'health': 0,
+            'transportation': 0,
+            'clothes': 0,
+            'bills': 0,
+            'sports': 0,
+            'extra_curricular': 0,
+        }
+        for daily_saving in daily_savings:
+            total_savings['school_items'] += daily_saving.school_items
+            total_savings['food'] += daily_saving.food
+            total_savings['health'] += daily_saving.health
+            total_savings['transportation'] += daily_saving.transportation
+            total_savings['clothes'] += daily_saving.clothes
+            total_savings['bills'] += daily_saving.bills
+            total_savings['sports'] += daily_saving.sports
+            total_savings['extra_curricular'] += daily_saving.extra_curricular
+
+        for daily_spending in daily_spendings:
+            total_spendings['school_items'] += daily_spending.school_items
+            total_spendings['food'] += daily_spending.food
+            total_spendings['health'] += daily_spending.health
+            total_spendings['transportation'] += daily_spending.transportation
+            total_spendings['clothes'] += daily_spending.clothes
+            total_spendings['bills'] += daily_spending.bills
+            total_spendings['sports'] += daily_spending.sports
+            total_spendings['extra_curricular'] += daily_spending.extra_curricular
+        
+        total_saving=sum(total_savings.values())
+        total_savings['total_saving']=total_saving
+        total_spending=sum(total_spendings.values())
+        total_spendings['total_spending']=total_spending
+        total_savings['spendings']=total_spendings
+        budgets['total_budget']=sum(budgets.values())
+        total_savings['budget']=budgets
+        total_savings['image']=school_form.image_file.url
+        return JsonResponse(total_savings, status=200)
+

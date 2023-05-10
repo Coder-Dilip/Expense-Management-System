@@ -28,7 +28,8 @@ urlpatterns = [
     path('school-dashboard/analytics',views.analytics),
     path('api/analytics/',views.analytics_spending),
     path('api_message/',views.api_message),
-    path('top-three/',views.top_three_schools)
+    path('top-three/',views.top_three_schools),
+    path('dashboard_api/',views.dashboard_api)
 ]
 
 if settings.DEBUG:

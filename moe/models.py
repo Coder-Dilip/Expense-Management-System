@@ -7,3 +7,5 @@ class Notification(models.Model):
     message=models.CharField(max_length=200)
     redirect_url=models.CharField(max_length=100)
 
+
+

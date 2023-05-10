@@ -121,3 +121,39 @@ def get_reports(request):
     reports = list(Report.objects.all().values())
     return JsonResponse({'reports': reports})
 
+from django.db.models import Sum
+from django.core.serializers import serialize
+def budget_summary(request):
+    # Aggregate budget fields by curr_date
+    budget_summary = SchoolBudget.objects.values('curr_date') \
+        .annotate(school_items_budget=Sum('school_items')) \
+        .annotate(food_budget=Sum('food')) \
+        .annotate(health_budget=Sum('health')) \
+        .annotate(transportation_budget=Sum('transportation')) \
+        .annotate(clothes_budget=Sum('clothes')) \
+        .annotate(bills_budget=Sum('bills')) \
+        .annotate(sports_budget=Sum('sports')) \
+        .annotate(extra_curricular_budget=Sum('extra_curricular')) \
+        .order_by('curr_date')
+
+    # Convert the queryset to a list
+    budget_summary_list = list(budget_summary)
+
+    # Create a new list of dictionaries with summed budget values
+    budget_summary_totals = []
+    for item in budget_summary_list:
+        budget_summary_totals.append({
+            'curr_date': item['curr_date'],
+            'school_items_budget': item['school_items_budget'],
+            'food_budget': item['food_budget'],
+            'health_budget': item['health_budget'],
+            'transportation_budget': item['transportation_budget'],
+            'clothes_budget': item['clothes_budget'],
+            'bills_budget': item['bills_budget'],
+            'sports_budget': item['sports_budget'],
+            'extra_curricular_budget': item['extra_curricular_budget'],
+            'total_budget': item['school_items_budget'] + item['food_budget'] + item['health_budget'] + item['transportation_budget'] + item['clothes_budget'] + item['bills_budget'] + item['sports_budget'] + item['extra_curricular_budget']
+        })
+
+    return JsonResponse(budget_summary_totals, safe=False)
+

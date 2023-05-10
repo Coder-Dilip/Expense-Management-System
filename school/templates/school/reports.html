@@ -198,10 +198,23 @@
 
       <!-- Overlay -->
       <div class="layout-overlay layout-menu-toggle"></div>
+      
     <!-- / Layout wrapper -->
     
 
   </div>
+  <!-- Add the following HTML code for the loading screen modal -->
+<div id="loadingModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-body text-center">
+              <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     const budgetRequestBtn = document.querySelector('#budget-request-btn');
@@ -247,40 +260,47 @@ console.log(newText)
 
 
 <script>
-  const generate=document.querySelector("#generate")
+  const generate = document.querySelector("#generate");
   const messageTextArea3 = document.querySelector('#message');
-  generate.addEventListener('click',((e)=>{
-e.preventDefault()
 
- // Create a new XMLHttpRequest object
- const xhr = new XMLHttpRequest();
-let message=document.getElementById('openai').value
-// Set the URL and query parameters
-const url = `/ai-generate/?message=${encodeURIComponent(message)}`;
+  generate.addEventListener('click', (e) => {
+      e.preventDefault();
 
-// Open the GET request
-xhr.open('GET', url);
+      // Show the loading modal
+      document.getElementById('loadingModal').style.display = 'block';
 
-// Set the response type to JSON (optional)
-xhr.responseType = 'json';
+      // Create a new XMLHttpRequest object
+      const xhr = new XMLHttpRequest();
+      let message = document.getElementById('openai').value;
 
-// Set the callback function for when the request completes
-xhr.onload = () => {
-    if (xhr.status === 200) {
-        // Request was successful, do something with the response
-        console.log(xhr.response.reply);
-        messageTextArea3.value=xhr.response.reply
-        document.getElementById("message_type").value="report"
+      // Set the URL and query parameters
+      const url = `/ai-generate/?message=${encodeURIComponent(message)}`;
 
-    } else {
-        // Request failed, handle the error
-        console.error(xhr.statusText);
-    }
-};
+      // Open the GET request
+      xhr.open('GET', url);
 
-// Send the request
-xhr.send();
-  }))
+      // Set the response type to JSON (optional)
+      xhr.responseType = 'json';
+
+      // Set the callback function for when the request completes
+      xhr.onload = () => {
+          // Hide the loading modal
+          document.getElementById('loadingModal').style.display = 'none';
+
+          if (xhr.status === 200) {
+              // Request was successful, do something with the response
+              console.log(xhr.response.reply);
+              messageTextArea3.value = xhr.response.reply;
+              document.getElementById("message_type").value = "report";
+          } else {
+              // Request failed, handle the error
+              console.error(xhr.statusText);
+          }
+      };
+
+      // Send the request
+      xhr.send();
+  });
 </script>
 
     <!-- Core JS -->

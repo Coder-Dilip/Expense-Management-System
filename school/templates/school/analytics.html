@@ -304,7 +304,7 @@
           <p class="text-center">Guide is being generated...</p>
       </div>
   </div>
-    <pre id="api-message" class="lead" style="color: #333333; font-size: 1.5rem; text-align: left; padding: 1rem; background-color: #eff3ff; border-radius: 10px;white-space: pre-wrap;"></pre>
+    <textarea id="api-message" class="lead" style="color: #333333; font-size: 1.5rem; text-align: left; padding: 1rem; background-color: #ffffff; border-radius: 10px;white-space: pre-wrap;height:600px;border:none;margin-bottom: 200px;"></textarea>
 
          
           </div>
@@ -356,7 +356,7 @@
   .then(response => response.json())
   .then(data1 => {
     if(JSON.parse(data1.data).length>=10){
-   let data=JSON.parse(data1.data).slice(-10)
+   let data=JSON.parse(data1.data).slice(-20)
    console.log(data)
 const dates = [];
 
@@ -426,10 +426,13 @@ const chart = new ApexCharts(document.querySelector("#lineChart"), options);
     </script>
     <script>
     document.getElementById("loading").style.display='block'
+   document.getElementById('api-message').style.display='none'
+
        fetch('/api_message/')
   .then(response => response.json())
   .then(data1 => {
-   document.getElementById('api-message').textContent=data1.reply
+   document.getElementById('api-message').value=data1.reply
+   document.getElementById('api-message').style.display='block'
    document.getElementById('loading').style.display = 'none';
   })
     </script>

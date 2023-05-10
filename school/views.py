@@ -816,7 +816,7 @@ def analytics_spending(request):
         last_val = lst[-1]
         
         # check if the last value is greater than the first value
-        if last_val > lst[0]:
+        if last_val < lst[0]:
             # predict an increase in value
             predicted_val = last_val/2 + random.uniform(0, 1.5*max_diff)
         else:
@@ -825,9 +825,10 @@ def analytics_spending(request):
         
         # append the predicted value to the original list
         lst.append(predicted_val)
+    print(str(lst))
     return JsonResponse({"data":str(lst)})
     
-    return JsonResponse(data, safe=False)
+    # return JsonResponse(data, safe=False)
 
 
 
